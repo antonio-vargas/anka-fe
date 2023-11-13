@@ -1,0 +1,11 @@
+// @tailwind base;
+@import 'base';
+html {
+  @apply font-telegraf-regular;
+}
+
+// @layer base {
+//   html {
+//     @apply font-serif;
+//   }
+// }

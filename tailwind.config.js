@@ -12,12 +12,16 @@ module.exports = {
     extend: {
       colors: {
         primary: '#0C2A3D',
+        "primary-light": '#073A5A',
         secondary: '#E63A24'
-      },
-      fontFamily:{
-        'primary': ['Manrope']
       }
     },
+    fontFamily:{
+      sans: ['Telegraf Regular', 'sans-serif'],
+      'telegraf-thin': ['Telegraf Thin', 'sans-serif'],
+      'telegraf-regular': ['Telegraf Regular', 'sans-serif'],
+      'telegraf-black': ['Telegraf Black', 'sans-serif']
+    }
   },
   plugins: [],
 }
