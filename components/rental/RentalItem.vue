@@ -5,29 +5,24 @@ import RequestQuoteIcon from '@/components/ui/icons/RequestQuoteIcon.vue'
 <template>
   <div class="rental">
     <div class="rental__inner">
-      <div class="rental__header">
-        <div class="rental__image">
-          <img src="~/assets/img/purchase-item.jpg" />
-        </div>
-        <div class="rental__actions">
-          <div class="rental__name">CARGADOR FRONTAL</div>
-          <button class="btn-quote" type="button">
-            <RequestQuoteIcon />
-            <span>Cotizar</span>
-          </button>
-        </div>
+      <div class="rental__image">
+        <img src="~/assets/img/purchase-item.jpg" />
+      </div>
+      <div class="rental__actions">
+        <div class="rental__name">CARGADOR FRONTAL</div>
+        <button class="btn-quote" type="button">
+          <RequestQuoteIcon />
+          <span>Cotizar</span>
+        </button>
       </div>
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
 .rental {
-  &__inner {
-    @apply flex gap-3 flex-col w-[300px];
-  }
 
-  &__header {
-    @apply relative rounded-lg overflow-hidden;
+  &__inner {
+    @apply flex gap-3 flex-col w-[300px] relative rounded-lg overflow-hidden;
   }
 
   &__image {
@@ -39,19 +34,26 @@ import RequestQuoteIcon from '@/components/ui/icons/RequestQuoteIcon.vue'
   }
 
   &__name {
-    @apply text-primary text-2xl leading-8 font-telegraf-black font-bold uppercase text-left truncate min-h-[56px];
+    @apply w-full ;
+    @apply text-white text-2xl font-telegraf-black font-bold uppercase text-left truncate;
   }
 
   &__actions {
-    @apply w-full relative invisible;
+    @apply w-full absolute invisible h-[170px] top-0 left-0 flex justify-end flex-col gap-3;
+    @apply px-5 pb-3;
+    background: linear-gradient(0deg, #0C2A3D 17.75%, rgba(12, 42, 61, 0.00) 100%);
     .btn-quote{
       @apply flex items-center justify-center h-[42px] w-full;
       @apply bg-secondary text-white rounded-3xl text-sm font-telegraf-black font-bold uppercase;
       letter-spacing: 0.14px;
     }
+    @screen lg {
+      @apply h-full gap-5;
+      @apply px-5 pb-5;
+    }
   }
   &:hover {
-    .spare__actions {
+    .rental__actions {
       @apply visible;
     }
   }

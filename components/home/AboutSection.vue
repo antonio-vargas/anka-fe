@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import ArrowRightIcon from '@/components/ui/icons/ArrowRightIcon.vue'
-import EagleIcon from '@/components/ui/icons/EagleIcon.vue'
+import { ArrowRightIcon, EagleIcon } from '@/components/ui/icons'
 </script>
 <template>
   <section class="about-section">

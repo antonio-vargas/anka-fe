@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Carousel, Navigation, Slide } from 'vue3-carousel'
-import ArrowRightIcon from '@/components/ui/icons/ArrowRightIcon.vue'
-import EagleIcon from '@/components/ui/icons/EagleIcon.vue'
 import PurchaseItem from '@/components/purchase/PurchaseItem.vue'
 
 import 'vue3-carousel/dist/carousel.css'

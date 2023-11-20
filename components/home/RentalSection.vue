@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Carousel, Navigation, Slide } from 'vue3-carousel'
-import ArrowRightIcon from '@/components/ui/icons/ArrowRightIcon.vue'
-import EagleIcon from '@/components/ui/icons/EagleIcon.vue'
+import {ArrowRightIcon} from '@/components/ui/icons'
 import RentalItem from '@/components/rental/RentalItem.vue'
 
 import 'vue3-carousel/dist/carousel.css'
@@ -28,7 +27,7 @@ const breakpoints = ref({
 </script>
 <template>
   <section class="rental-section">
-    <div class="container relative mx-auto flex-row flex">
+    <div class="container relative mx-auto flex-row flex justify-between w-full">
       <div class="rental-section__header">
         <p>REDUCE COSTOS DE INVERSIÓN</p>
         <h3>ALQUILER</h3>
@@ -52,7 +51,7 @@ const breakpoints = ref({
 </template>
 <style lang="scss" scoped>
 .rental-section {
-  @apply pt-[60px] pb-[60px] relative bg-primary-light flex flex-row justify-between items-center;
+  @apply pt-[60px] pb-[60px] relative bg-primary-light flex flex-row justify-between items-center w-full;
   &__header {
     @apply relative text-left w-full mb-[50px] flex shrink-0 flex-col;
     @apply text-white;
@@ -88,7 +87,7 @@ const breakpoints = ref({
     }
   }
   &__body {
-    @apply flex flex-1 gap-6 flex-wrap;
+    @apply grid grid-cols-3 gap-6 ;
   }
 }
 </style>

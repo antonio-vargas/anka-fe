@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import PurchaseRentalIcon from '@/components/ui/icons/PurchaseRentalIcon.vue'
-import TruckIcon from '@/components/ui/icons/TruckIcon.vue'
-import GearIcon from '@/components/ui/icons/GearIcon.vue'
-import ArrowRightIcon from '@/components/ui/icons/ArrowRightIcon.vue'
+import {
+  ArrowRightIcon,
+  GearIcon,
+  PurchaseRentalIcon,
+  TruckIcon
+} from '@/components/ui/icons'
 
 
 </script>
