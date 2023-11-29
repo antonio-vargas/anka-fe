@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import HeaderSection from '@/components/layout/HeaderSection'
-// import FooterSection from '@/components/layout/FooterSection'
+import FooterSection from '@/components/layout/FooterSection'
 onMounted(() => {
   console.log('netro default')
 })
@@ -11,6 +11,6 @@ onMounted(() => {
   <div>
     <HeaderSection />
     <slot />
-    <!-- <FooterSection /> -->
+    <FooterSection />
   </div>
 </template>

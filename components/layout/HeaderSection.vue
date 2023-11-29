@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+const ROUTER_NAME_HEADER = ['purchase']
+const route = useRoute()
+console.log(route)
+
+const isCustomHeader = computed(() => {
+  return ROUTER_NAME_HEADER.includes(route.name as string)
+})
+
 </script>
 <template>
-  <header class="header">
+  <header class="header" :class="{'header-custom': isCustomHeader}">
     <div class="header__content container">
       <div class="header__logo">
         <img src="~/assets/img/anka-logo.svg" alt="Anka" />
@@ -12,7 +21,7 @@
             <NuxtLink>ALQUILER</NuxtLink>
           </li>
           <li>
-            <NuxtLink>COMPRA</NuxtLink>
+            <NuxtLink to="/purchase">COMPRAR</NuxtLink>
           </li>
           <li>
             <NuxtLink>TRANSPORTE</NuxtLink>
@@ -32,6 +41,9 @@
 <style lang="scss" scoped>
 .header {
   @apply w-full absolute top-0 left-0 h-auto py-3 border-b border-primary/30 z-[120];
+  &.header-custom {
+    @apply relative;
+  }
   &__content {
     @apply flex justify-between items-center mx-auto;
   }

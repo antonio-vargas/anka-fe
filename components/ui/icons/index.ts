@@ -1,3 +1,4 @@
+export { default as ArrowDownIcon } from './ArrowDownIcon.vue';
 export { default as ArrowRightIcon } from './ArrowRightIcon.vue';
 export { default as EagleIcon } from './EagleIcon.vue';
 export { default as GearIcon } from './GearIcon.vue';
