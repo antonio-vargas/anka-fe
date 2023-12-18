@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-const ROUTER_NAME_HEADER = ['purchase']
+const ROUTER_NAME_HEADER = ['purchase', 'purchase-id']
 const route = useRoute()
 console.log(route)
 
@@ -24,7 +24,7 @@ const isCustomHeader = computed(() => {
             <NuxtLink to="/purchase">COMPRAR</NuxtLink>
           </li>
           <li>
-            <NuxtLink>TRANSPORTE</NuxtLink>
+            <NuxtLink to="/transport">TRANSPORTE</NuxtLink>
           </li>
           <li>
             <NuxtLink>REPUESTO</NuxtLink>

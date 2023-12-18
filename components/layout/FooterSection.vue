@@ -3,7 +3,8 @@
 <template>
   <footer class="footer">
     <div class="footer__banner">
-      <div class="container mx-auto relative">
+      <div class="bg-gradient"></div>
+      <div class="container relative z-10">
         <img src="~/assets/img/anka-shadow-logo.svg" alt="Anka" />
         <h2>¿Tienes una maquina que<br />quieres dar en aquiler o vender?</h2>
         <p>En ANKA puedes publicar tu maquinaria o vehículo sin costo, la comisión o tarifa preferencial se negocia con el proveedor. Contáctate con uno de nuestros asesores para mayor información.</p>
@@ -69,20 +70,34 @@
   @apply w-full relative;
   @apply bg-primary text-white;
   &__banner {
-    @apply pt-[70px] pb-[140px] w-full relative text-center;
+    @apply pt-[240px] pb-[60px] w-full relative text-center;
+    .bg-gradient{
+      @apply block md:hidden;
+      @apply absolute bottom-0 left-0 w-full h-[90%];
+      background: linear-gradient(0deg, #0C2A3D 12.27%, rgba(12, 42, 61, 0.00) 100%);
+    }
     background: {
-      image: url('~/assets/img/footer-bg.jpg');
+      image: url('~/assets/img/footer-responsive-bg.jpg');
       repeat: no-repeat;
       size: cover;
       position: top center;
     };
+    @screen md {
+      @apply pt-[70px] pb-[140px];
+      background: {
+        image: url('~/assets/img/footer-bg.jpg');
+        repeat: no-repeat;
+        size: cover;
+        position: top center;
+      };
+    }
 
     img {
       @apply w-auto mx-auto mb-8;
     }
 
     h2 {
-      @apply font-telegraf-black font-bold text-[64px] leading-none mb-8 uppercase;
+      @apply font-telegraf-black font-bold text-4xl md:text-[64px] leading-none mb-8 uppercase;
     }
     p {
       @apply font-telegraf-thin font-normal text-xl leading-6 w-full max-w-[940px] mx-auto mb-5;

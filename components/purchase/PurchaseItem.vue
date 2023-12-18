@@ -1,11 +1,20 @@
 <script lang="ts" setup>
 import MarkerTruckIcon from '@/components/ui/icons/MarkerTruckIcon.vue'
 import RequestQuoteIcon from '@/components/ui/icons/RequestQuoteIcon.vue'
+
+interface Props {
+  index: number
+}
+
+withDefaults(defineProps<Props>(), {
+  index: 1
+})
+
 </script>
 <template>
   <div class="purchase">
     <div class="purchase__inner">
-      <div class="purchase__header">
+      <NuxtLink :to="'/purchase/roducto-prueba'" class="purchase__header">
         <div class="purchase__image">
           <img src="~/assets/img/purchase-item.jpg" />
         </div>
@@ -13,9 +22,9 @@ import RequestQuoteIcon from '@/components/ui/icons/RequestQuoteIcon.vue'
         <div class="purchase__subcategory">
           <span>Retroescabadora</span>
         </div>
-      </div>
+      </NuxtLink>
       <div class="purchase__body">
-        <div class="purchase__name">NOMBRE DEL VEHÍCULO WE QEWQEWQ</div>
+        <NuxtLink :to="'/purchase/roducto-prueba'" class="purchase__name">NOMBRE DEL VEHÍCULO {{ index }}</NuxtLink>
         <div class="purchase__chip">
           <div class="purchase__chip-item">
             Lima
