@@ -151,8 +151,6 @@ import { type Options, Splide, SplideSlide, SplideTrack } from '@splidejs/vue-sp
 import { MarkerTruckIcon, CalendarIcon, WeightIcon, MeterIcon, RequestQuoteIcon, DownloadIcon, ArrowRightBigIcon } from '~/components/ui/icons';
 import PurchaseItem from '@/components/purchase/PurchaseItem.vue'
 // import '@splidejs/vue-splide/css'
-import '@splidejs/vue-splide/css/core'
-
 
 const windowWidth = ref<number>(0);
 
@@ -176,7 +174,7 @@ const options = computed(() => {
   // if (windowWidth.value > 1280) {
   //   perPage = 
   // }
-  const perPage = windowWidth.value > 1280 ? 4 : windowWidth.value > 768 ? 3 : windowWidth.value > 640 ? 2 : 1 
+  const perPage = windowWidth.value > 1280 ? 4 : windowWidth.value > 1024 ? 3 : windowWidth.value > 640 ? 2 : 1 
   return {
     rewind: true,
     perPage,
@@ -317,7 +315,7 @@ onUnmounted(() => {
         }
       }
       .slide-section {
-        @apply w-[300px] sm:w-full mx-auto;
+        @apply w-[300px] sm:w-[600px] lg:w-[1000px] xl:w-full mx-auto;
         &:deep(.splide) {
           .splide {
             &__arrows {

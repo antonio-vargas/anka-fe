@@ -13,6 +13,7 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.9.4",
     "@splidejs/vue-splide": "^0.6.12",
+    "@vueuse/nuxt": "^10.7.0",
     "autoprefixer": "^10.4.16",
     "nuxt": "^3.8.0",
     "postcss": "^8.4.31",

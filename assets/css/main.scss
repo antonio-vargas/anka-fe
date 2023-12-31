@@ -1,5 +1,8 @@
 // @tailwind base;
 @import 'base';
+
+@import '@splidejs/vue-splide/css/core';
+
 html {
   @apply font-telegraf-regular;
 }

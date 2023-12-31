@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import MarkerTruckIcon from '@/components/ui/icons/MarkerTruckIcon.vue'
 import RequestQuoteIcon from '@/components/ui/icons/RequestQuoteIcon.vue'
+
+interface Props {
+  index: number
+}
+
+defineProps<Props>()
 </script>
 <template>
   <div class="spare">

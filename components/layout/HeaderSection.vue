@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-const ROUTER_NAME_HEADER = ['purchase', 'purchase-id']
+import { computed, ref } from 'vue'
+const ROUTER_NAME_HEADER = ['buy', 'buy-id', 'spare', 'spare-id']
 const route = useRoute()
-console.log(route)
+
+const toggleMenu = ref<boolean>(false)
 
 const isCustomHeader = computed(() => {
   return ROUTER_NAME_HEADER.includes(route.name as string)
 })
+
+const handleToggleMenu = (value: boolean) => {
+  toggleMenu.value = value
+}
 
 </script>
 <template>
@@ -15,19 +20,26 @@ const isCustomHeader = computed(() => {
       <div class="header__logo">
         <img src="~/assets/img/anka-logo.svg" alt="Anka" />
       </div>
+      <div class="header__burger">
+        <button type="button" class="btn-burger" @click="handleToggleMenu(true)">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
       <div class="header__menu font-telegraf-regular">
         <ul>
           <li>
             <NuxtLink>ALQUILER</NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/purchase">COMPRAR</NuxtLink>
+            <NuxtLink to="/buy">COMPRAR</NuxtLink>
           </li>
           <li>
             <NuxtLink to="/transport">TRANSPORTE</NuxtLink>
           </li>
           <li>
-            <NuxtLink>REPUESTO</NuxtLink>
+            <NuxtLink to="/spare">REPUESTO</NuxtLink>
           </li>
           <li class="li-announce">
             <button type="button" class="btn-announce">ANUNCIA TU MAQUINA</button>
@@ -47,11 +59,20 @@ const isCustomHeader = computed(() => {
   &__content {
     @apply flex justify-between items-center mx-auto;
   }
+  &__burger {
+    @apply items-center flex lg:hidden;
+    .btn-burger {
+      @apply w-7 h-7 flex gap-1 flex-col justify-between;
+      span {
+        @apply h-1 w-full bg-primary flex rounded-sm;
+      }
+    }
+  }
   &__logo {
     
   }
   &__menu {
-    @apply flex items-center;
+    @apply items-center hidden lg:flex;
     ul {
       @apply flex items-center gap-1;
       li {

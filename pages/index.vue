@@ -2,10 +2,18 @@
 import BannerSection from '@/components/home/BannerSection.vue'
 import AboutSection from '@/components/home/AboutSection.vue'
 import PurchaseSection from '@/components/home/PurchaseSection.vue'
-import RentalSection from '@/components/home/RentalSection.vue'
-import SpareSection from '@/components/home/SpareSection.vue'
+// import RentalSection from '@/components/home/RentalSection.vue'
+// import SpareSection from '@/components/home/SpareSection.vue'
 import TransportSection from '@/components/home/TransportSection.vue'
+// import useMachinery from '@/composables/useMachinery'
 
+
+const { getMachines, getMachineById } = useMachinery();
+
+onMounted(() => {
+  getMachines()
+  getMachineById()
+})
 
 </script>
 <template>
@@ -13,8 +21,8 @@ import TransportSection from '@/components/home/TransportSection.vue'
     <BannerSection />
     <AboutSection />
     <PurchaseSection />
-    <RentalSection />
-    <SpareSection />
+    <!-- <RentalSection /> -->
+    <!-- <SpareSection /> -->
     <TransportSection />
   </div>
 </template>

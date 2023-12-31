@@ -27,7 +27,7 @@ const breakpoints = ref({
 </script>
 <template>
   <section class="rental-section">
-    <div class="container relative mx-auto flex-row flex justify-between w-full">
+    <div class="container relative mx-auto flex-col lg:flex-row flex justify-between w-full">
       <div class="rental-section__header">
         <p>REDUCE COSTOS DE INVERSIÓN</p>
         <h3>ALQUILER</h3>
@@ -45,6 +45,9 @@ const breakpoints = ref({
       </div>
       <div class="rental-section__body">
         <RentalItem v-for="slide in 6" :key="slide" />
+        <div class="subcategory__actions">
+          <NuxtLink to="/" class="link-view-more"><span>VER TODO</span><ArrowRightIcon /></NuxtLink>
+        </div>
       </div>
     </div>
   </section>
@@ -65,6 +68,7 @@ const breakpoints = ref({
       @apply mb-10;
       @apply text-[48px] leading-[58px] font-telegraf-black font-bold uppercase;
     }
+  }
     .subcategory {
       &__label {
         @apply flex text-white text-base leading-8 mb-3;
@@ -85,7 +89,6 @@ const breakpoints = ref({
         }
       }
     }
-  }
   &__body {
     @apply grid grid-cols-3 gap-6 ;
   }

@@ -11,8 +11,11 @@ import { MedalIcon, InfoIcon, RequestQuoteIcon } from '@/components/ui/icons'
       </div>
       <div class="transport-section__body">
         <div class="bg-skew">
-          <svg xmlns="http://www.w3.org/2000/svg" width="618" height="401" viewBox="0 0 618 401" fill="none">
+          <svg class="hidden lg:block" xmlns="http://www.w3.org/2000/svg" width="618" height="401" viewBox="0 0 618 401" fill="none">
             <path d="M0 8.00001C0 3.58173 3.58172 0 8 0H609.409C614.565 0 618.374 4.80509 617.198 9.8248L527.002 394.825C526.155 398.442 522.928 401 519.213 401H8.00001C3.58174 401 0 397.418 0 393V8.00001Z" fill="#F5F5F5"/>
+          </svg>
+          <svg class="block lg:hidden" xmlns="http://www.w3.org/2000/svg" width="320" height="316" viewBox="0 0 320 316" fill="none">
+            <path d="M0 8.00001C0 3.58173 3.58172 0 8 0H311.052C315.824 0 319.535 4.15005 319.003 8.89174L285.353 308.892C284.899 312.94 281.476 316 277.403 316H8C3.58172 316 0 312.418 0 308V8.00001Z" fill="#F5F5F5"/>
           </svg>
         </div>
         <div class="transport-section__inner">
@@ -40,30 +43,36 @@ import { MedalIcon, InfoIcon, RequestQuoteIcon } from '@/components/ui/icons'
 </template>
 <style lang="scss" scoped>
 .transport-section{
-  @apply relative w-full pt-[90px] pb-[80px];
+  @apply relative w-full pt-11 lg:pt-[90px] pb-[250px] lg:pb-[80px];
   @apply bg-primary text-white;
   background: {
-    image: url('~/assets/img/transport-bg.jpg');
+    image: url('~/assets/img/transport-bg-mobile.jpg');
     repeat: no-repeat;
     size: cover;
-    position: top center;
+    position: bottom center;
   };
+  @screen lg {
+    background: {
+      image: url('~/assets/img/transport-bg.jpg');
+      position: top center;
+    };
+  }
   .bg-gradient-primary {
     @apply absolute w-full left-0 top-0 h-[385px];
     @apply bg-primary;
     background: linear-gradient(180deg, rgba(12,42,61,1) 8.42%, rgba(255,255,255,0) 100%);
   }
   &__header {
-    @apply text-left w-full mb-12;
+    @apply text-left w-full mb-9 lg:mb-12;
     h3 {
-      @apply font-telegraf-regular font-bold text-5xl leading-[58px]
+      @apply font-telegraf-regular font-bold text-5xl leading-[58px];
     }
     p{
       @apply font-telegraf-thin font-normal text-base leading-8 mb-0 max-w-[310px];
     }
   }
   &__body {
-    @apply relative max-w-[620px] min-h-[400px] justify-between items-center flex;
+    @apply relative max-w-[620px] w-[320px] lg:w-auto mx-auto lg:mx-0 lg:min-h-[400px] justify-between lg:items-center flex;
     @apply rounded-lg;
     .transport {
       @apply  gap-4 flex flex-col;
@@ -77,7 +86,7 @@ import { MedalIcon, InfoIcon, RequestQuoteIcon } from '@/components/ui/icons'
         @apply shrink-0 w-[38px] text-secondary;
       }
       &__description {
-        @apply text-primary text-xl leading-6 font-telegraf-regular;
+        @apply text-primary text-base leading-4 lg:text-xl lg:leading-6 font-telegraf-regular;
       }
     }
     
@@ -125,7 +134,7 @@ import { MedalIcon, InfoIcon, RequestQuoteIcon } from '@/components/ui/icons'
     }
   }
   &__inner {
-    @apply relative justify-between gap-6 flex flex-row pl-[44px] pr-[106px] pt-[55px] pb-11 ;
+    @apply relative justify-between gap-6 flex flex-row pl-3 lg:pl-[44px] pr-[53px] lg:pr-[106px] pt-5 lg:pt-[55px] pb-5 lg:pb-11 ;
   }
 }
 </style>

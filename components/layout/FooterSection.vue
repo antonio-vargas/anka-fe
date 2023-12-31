@@ -14,14 +14,13 @@
       </div>
     </div>
     <div class="footer__detail">
-      <div class="container mx-auto relative flex justify-between items-center">
-        <div class="flex flex-1 w-full justify-between pr-[120px] py-8">
+      <div class="container mx-auto px-0 lg:px-3 relative flex flex-col lg:flex-row lg:justify-between lg:items-center">
+        <div class="flex flex-1 gap-5 lg:gap-0 w-full flex-col lg:flex-row justify-between pl-3 pr-3 lg:pr-[120px] py-6 lg:py-8">
           <div class="footer__lang flex flex-col">
-            <img src="~/assets/img/footer-logo.png" alt="Anka" />
-
+            <img class="max-w-[201px]" src="~/assets/img/footer-logo.png" alt="Anka" />
           </div>
           <div class="footer__menu">
-            <div class="flex flex-row items-end gap-6">
+            <div class="flex flex-col lg:flex-row lg:items-end gap-1 lg:gap-6">
               <nav>
                 <ul>
                   <li>ALQUILER</li>
@@ -40,7 +39,7 @@
             </div>
           </div>
         </div>
-        <div class="footer__contact py-8 pl-6">
+        <div class="footer__contact py-6 lg:py-8 pr-3 pl-3 lg:pl-6">
           <p class="font-telegraf-black font-bold text-2xl leading-7">CONTACTO DE NUESTRO CANAL DE VENTAS</p>
           <div class="">
             <p class="mb-1.5">CORREO:</p>
@@ -53,7 +52,7 @@
     </div>
     <div class="footer__legal">
       <div class="container mx-auto relative flex justify-between items-center">
-        <div class="flex gap-5 items-center">
+        <div class="gap-5 items-center hidden lg:flex">
           <NuxtLink to="/terms-and-conditions">Términos y condiciones</NuxtLink>
           <NuxtLink to="/privacy-policy">Políticas de privacidad</NuxtLink>
         </div>
@@ -97,7 +96,7 @@
     }
 
     h2 {
-      @apply font-telegraf-black font-bold text-4xl md:text-[64px] leading-none mb-8 uppercase;
+      @apply font-telegraf-black font-bold text-4xl lg:text-[64px] leading-none mb-8 uppercase;
     }
     p {
       @apply font-telegraf-thin font-normal text-xl leading-6 w-full max-w-[940px] mx-auto mb-5;
@@ -111,11 +110,17 @@
   }
 
   &__detail {
-    @apply border-t border-[#7C8993] py-0 flex min-h-[330px];
+    @apply border-t border-[#7C8993] py-0 flex;
+    @screen lg {
+      @apply min-h-[330px];
+    }
   }
 
   &__menu {
-    @apply flex flex-col items-end;
+    @apply flex flex-col items-start;
+    @screen lg {
+      @apply items-end;
+    }
     nav {
       ul {
         @apply p-0 flex-col flex gap-1;
@@ -129,7 +134,7 @@
   }
 
   &__contact {
-    @apply flex flex-col border-l border-[#7C8993] w-[330px] shrink-0 h-full;
+    @apply flex flex-col border-t lg:border-t-0 lg:border-l border-[#7C8993] w-full lg:w-[330px] shrink-0 lg:h-full;
     @apply font-telegraf-thin text-white;
     a {
       @apply text-base font-normal;
@@ -137,7 +142,7 @@
   }
 
   &__legal {
-    @apply border-t border-[#7C8993] py-9 flex;
+    @apply border-t border-[#7C8993] py-3 lg:py-9 flex;
 
   }
 }

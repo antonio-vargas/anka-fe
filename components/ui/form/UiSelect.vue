@@ -59,7 +59,7 @@ const handleToggleOptions = () => {
 </template>
 <style lang="scss" scoped>
 .ui-select {
-  @apply flex flex-col;
+  @apply flex flex-col relative;
   &__label {
     @apply flex w-full mb-1;
     @apply font-telegraf-black font-bold text-base uppercase;

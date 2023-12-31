@@ -14,7 +14,7 @@ withDefaults(defineProps<Props>(), {
 <template>
   <div class="purchase">
     <div class="purchase__inner">
-      <NuxtLink :to="'/purchase/roducto-prueba'" class="purchase__header">
+      <NuxtLink :to="'/buy/producto-prueba'" class="purchase__header">
         <div class="purchase__image">
           <img src="~/assets/img/purchase-item.jpg" />
         </div>
@@ -24,7 +24,7 @@ withDefaults(defineProps<Props>(), {
         </div>
       </NuxtLink>
       <div class="purchase__body">
-        <NuxtLink :to="'/purchase/roducto-prueba'" class="purchase__name">NOMBRE DEL VEHÍCULO {{ index }}</NuxtLink>
+        <NuxtLink :to="'/buy/producto-prueba'" class="purchase__name">NOMBRE DEL VEHÍCULO {{ index }}</NuxtLink>
         <div class="purchase__chip">
           <div class="purchase__chip-item">
             Lima
