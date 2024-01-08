@@ -9,13 +9,13 @@ export default function useFilter() {
     await useHttp(`brand`, {
       method: 'GET',
       onResponse({ response }) {
-        console.log('onResponse-brand', response._data)
+        // console.log('onResponse-brands', response._data)
         // const { data, status, total } = response._data
         brands.value = response._data
         // totalEmployee.value = total
       },
       onResponseError({ response }) {
-        console.log('onResponseError-brand', response)
+        console.log('onResponseError-brands', response)
         brands.value = []
         // const data = response._data as ErrorCulqi
         // errorEmployee.value = data?.message || 'Hubo un error, vuelva a intentar'
@@ -28,13 +28,13 @@ export default function useFilter() {
     await useHttp(`location`, {
       method: 'GET',
       onResponse({ response }) {
-        console.log('onResponse-location', data)
+        // console.log('onResponse-locations', response._data)
         // const { data, status, total } = response._data
         locations.value = response._data
         // totalEmployee.value = total
       },
       onResponseError({ response }) {
-        console.log('onResponseError-brand', response)
+        console.log('onResponseError-locations', response)
         locations.value = []
       }
     });
@@ -44,14 +44,14 @@ export default function useFilter() {
     console.log('ici-getCategories')
     await useHttp(`category`, {
       method: 'GET',
-      onResponse({ data }) {
-        console.log('onResponse-brand', data)
+      onResponse({ response }) {
+        // console.log('onResponse-categories', response._data)
         // const { data, status, total } = response._data
         categories.value = response._data
         // totalEmployee.value = total
       },
       onResponseError({ response }) {
-        console.log('onResponseError-brand', response)
+        console.log('onResponseError-categories', response)
         categories.value = []
       }
     });

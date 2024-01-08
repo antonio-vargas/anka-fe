@@ -1,17 +1,9 @@
 import {useHttp} from './useHttp'
-interface IEmployee {
-  id: number;
-  nombre: string;
-  correo: string;
-  cargo: string;
-  departamento: string;
-  oficina: string;
-  estadoCuenta: string;
-}
+import { IMachinery } from '@/types'
 
 export default function useMachinery() {
-  const machineries = ref([]);
-  const machinery = ref([]);
+  const machineries = ref<IMachinery[]>([]);
+  const machinery = ref<IMachinery>(null);
   const loadingMachineries = ref(true)
   const loadingMachinery = ref(true)
   const errorEmployee = ref('')
@@ -23,7 +15,7 @@ export default function useMachinery() {
     await useHttp(`machinery/search${params}`, {
       method: 'GET',
       onResponse({ response }) {
-        console.log('onResponse-machinery', response._data.data)
+        // console.log('onResponse-machinery', response._data.data)
         // const { data, status, total } = response._data
         machineries.value = response._data.data
         // totalEmployee.value = total
@@ -31,29 +23,26 @@ export default function useMachinery() {
       },
       onResponseError({ response }) {
         console.log('onResponseError-machinery', response)
-        const data = response._data as ErrorCulqi
-        errorEmployee.value = data?.message || 'Hubo un error, vuelva a intentar'
+        // const data = response._data as ErrorCulqi
+        // errorEmployee.value = data?.message || 'Hubo un error, vuelva a intentar'
         loadingMachineries.value = false
       }
     });
   }
 
-  async function getMachineById(params: string = '') {
+  async function getMachineById(id: string = '') {
     loadingMachinery.value = true
-    await useHttp(`machinery/2`, {
+    await useHttp(`machinery/${id}`, {
       method: 'GET',
       onResponse({ response }) {
-        console.log('onResponse-machinery/2', response)
-        const { data, status, total } = response._data
-        if (status === 'success') {
-          machinery.value = data
-          totalEmployee.value = total
-        }
+        // console.log(`onResponse_machinery/${id}`, response._data)
+        machinery.value = response._data
         loadingMachinery.value = false
       },
       onResponseError({ response }) {
-        const data = response._data as ErrorCulqi
-        errorEmployee.value = data?.message || 'Hubo un error, vuelva a intentar'
+        console.log(response)
+        // const data = response._data as ErrorCulqi
+        // errorEmployee.value = data?.message || 'Hubo un error, vuelva a intentar'
         loadingMachinery.value = false
       }
     });

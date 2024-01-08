@@ -1,6 +1,6 @@
 <template>
   <div class="purchase-page">
-    <div class="purchase__info">
+    <div v-if="machinery !== null" class="purchase__info">
       <div class="container px-0 lg:px-3">
         <div class="flex w-full flex-col lg:flex-row">
           <div class="purchase__carousel">
@@ -33,38 +33,35 @@
           <div class="purchase__detail">
             <div class="w-full flex justify-end items-center gap-1 text-white mb-5">
               <MarkerTruckIcon class="text-white w-[29px] h-auto" />
-              <span>LIMA</span>
+              <span>{{ machinery.location?.name || '' }}</span>
             </div>
             <div class="w-full flex gap-3 flex-col">
               <div class="text-white w-full flex gap-4">
-                <p class="uppercase font-telegraf-regular text-xl lg:text-2xl">CAT</p>
+                <p class="uppercase font-telegraf-regular text-xl lg:text-2xl">{{ machinery.brand?.name || '' }}</p>
                 <div class="h-auto block w-px bg-white/50"></div>
-                <p class="font-telegraf-regular text-xl lg:text-2xl">Retroescabadora</p>
+                <p class="font-telegraf-regular text-xl lg:text-2xl">{{ machinery.category?.name || '' }}</p>
               </div>
               <div>
-                <h1 class="text-white font-telegraf-black font-bold text-2xl lg:text-5xl">NOMBRE DEL VEHÍCULO</h1>
+                <h1 class="text-white font-telegraf-black font-bold text-2xl lg:text-5xl">{{ machinery.name }}</h1>
               </div>
             </div>
             <div class="border-t border-white/30 py-1 border-b text-white font-telegraf-regular my-4">
               <div class="w-full flex">
                 <div class="flex-1 flex gap-3 min-h-[70px] items-center justify-center">
                   <CalendarIcon />
-                  <span class="text-base ">2021</span>
+                  <span class="text-base ">{{ formattedYear }}</span>
                 </div>
                 <div class="flex-1 flex gap-3 min-h-[70px] items-center justify-center border-l border-white/30">
                   <WeightIcon />
-                  <span class="text-base ">21.6 TN</span>
+                  <span class="text-base ">{{ machinery.weight }} TN</span>
                 </div>
                 <div class="flex-1 flex gap-3 min-h-[70px] items-center justify-center border-l border-white/30">
                   <MeterIcon />
-                  <span class="text-base ">8,500 hrs</span>
+                  <span class="text-base ">{{ machinery.hourmeter }} hrs</span>
                 </div>
               </div>
             </div>
-            <div class="text-base font-telegraf-regular text-white">
-              Dumper a orugas con pocas horas de uso 100% operativo. dumper a orugas con pocas horas de uso 100% operativo. dumper a orugas como nuevo.
-              Dumper a orugas con pocas horas de uso 100% operativo. dumper a orugas con pocas horas de uso 100% operativo. dumper a orugas como nuevo.
-            </div>
+            <div class="text-base font-telegraf-regular text-white">{{ machinery.description }}</div>
             <div class="w-full mt-5">
               <button class="btn-quote" type="button">
                 <RequestQuoteIcon />
@@ -80,21 +77,21 @@
         <div class="file">
           <div class="file__item">
             <p class="font-telegraf-black text-base lg:text-2xl">Ficha técnica</p>
-            <button type="button" @click="handleDownloadFile('ficha')">
+            <button type="button" @click="handleDownloadFile('technical_datasheet_link')">
               <DownloadIcon />
               <span>DESCARGAR</span>
             </button>
           </div>
           <div class="file__item">
             <p class="font-telegraf-black text-base lg:text-2xl">Historial de mantenimiento preventivo</p>
-            <button type="button" @click="handleDownloadFile('preventivo')">
+            <button type="button" @click="handleDownloadFile('preventive_maintenance_link')">
               <DownloadIcon />
               <span>DESCARGAR</span>
             </button>
           </div>
           <div class="file__item">
             <p class="font-telegraf-black text-base lg:text-2xl">Historial de mantenimiento correctivo</p>
-            <button type="button" @click="handleDownloadFile('correctivo')">
+            <button type="button" @click="handleDownloadFile('corrective_maintenance_link')">
               <DownloadIcon />
               <span>DESCARGAR</span>
             </button>
@@ -119,7 +116,7 @@
         </div>
       </div>
     </div>
-    <div class="purchase__alternatives">
+    <!-- <div class="purchase__alternatives">
       <div class="container relative mx-auto">
         <div class="flex flex-col gap-3 text-primary-light font-telegraf-black w-full text-center mb-8">
           <p class="text-sm lg:text-xl">MAQUINARIAS Y  VEHÍCULOS</p>
@@ -141,7 +138,7 @@
           </Splide>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script setup lang="ts">
@@ -150,6 +147,9 @@ import productDetail from "@/assets/img/product-detail-test.jpg"
 import { type Options, Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide'
 import { MarkerTruckIcon, CalendarIcon, WeightIcon, MeterIcon, RequestQuoteIcon, DownloadIcon, ArrowRightBigIcon } from '~/components/ui/icons';
 import PurchaseItem from '@/components/purchase/PurchaseItem.vue'
+const route = useRoute()
+
+const { machinery, loadingMachinery, getMachineById } = useMachinery();
 // import '@splidejs/vue-splide/css'
 
 const windowWidth = ref<number>(0);
@@ -159,7 +159,8 @@ const handleResize = () => {
 };
 
 const handleDownloadFile = (payload: string) => {
-  console.log('payload')
+  // console.log('handleDownloadFile', payload, machinery.value[payload])
+  window.open(machinery.value[payload], '_blank')
 }
 
 const optionsProduct = {
@@ -168,6 +169,13 @@ const optionsProduct = {
   arrow: true,
     pagination: false,
 }
+
+onMounted(async () => {
+  console.log('id', route.params?.id || '')
+  await getMachineById(`${route.params?.id || ''}`)
+  handleResize()
+  window.addEventListener('resize', handleResize);
+});
 
 const options = computed(() => {
   // const perPage = 4
@@ -184,10 +192,11 @@ const options = computed(() => {
   }
 })
 
-onMounted(() => {
-  handleResize()
-  window.addEventListener('resize', handleResize);
-});
+const formattedYear = computed(() => {
+  if (!machinery.value) return '-'
+  const [year, _] = machinery.value.mfg_date?.split('T')[0].split('-')
+  return year
+})
 
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize);

@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import MarkerTruckIcon from '@/components/ui/icons/MarkerTruckIcon.vue'
 import RequestQuoteIcon from '@/components/ui/icons/RequestQuoteIcon.vue'
+const { machineries, getMachineById } = useMachinery();
 
 interface Props {
   index: number,
   machinery: {
+    id: string | null,
     name: string;
     weight: string;
     hourmeter: string;
@@ -18,12 +20,14 @@ interface Props {
       name: string;
       id: number | null;
     }
-  }
+  } | null;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  index: 1
+  index: 1,
+  machinery: null
 })
+
 
 const formattedYear = computed(() => {
   if (!props.machinery) return '-'
@@ -34,7 +38,7 @@ const formattedYear = computed(() => {
 </script>
 <template>
   <div class="purchase">
-    <div class="purchase__inner">
+    <div v-if="machinery" class="purchase__inner">
       <NuxtLink :to="`/buy/${machinery.id}`" class="purchase__header">
         <div class="purchase__image">
           <!-- <img :src="machinery.images[0]" /> -->

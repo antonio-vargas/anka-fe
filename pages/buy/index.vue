@@ -75,8 +75,9 @@ const handleSelectCategory = (value: any) => {
         <div class="purchase__result pt-10">
           <div class="grid grid-cols-3 gap-6">
             <PurchaseItem
-              v-for="item in machineries"
-              :key="`MACHINERY_CARD_${item.id || null}`"
+              v-for="(item, index) in machineries"
+              :key="`MACHINERY_CARD_${index}`"
+              :index="index"
               :machinery="item"
             />
           </div>
