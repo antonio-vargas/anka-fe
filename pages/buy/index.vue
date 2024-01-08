@@ -8,6 +8,7 @@ import { LIST_CATEGORY } from '@/constants/category'
 const selectedCategory = ref()
 const selectedLocation = ref()
 const selectedBrand = ref()
+const selectedYear = ref<string>()
 const subcategoryOptions = ref([])
 const { machineries, getMachineries } = useMachinery();
 const { brands, locations, categories, getBrands, getLocations, getCategories } = useFilter();
@@ -53,19 +54,25 @@ const handleSelectCategory = (value: any) => {
               placeholder="Selecciona la ciudad"
               :options="locations"
             />
+            <div class="w-full flex flex-col gap-1 mb-4">
+              <label class="font-telegraf-black font-bold text-base uppercase">Año</label>
+              <div class="relative w-full">
+                <input
+                  v-model="selectedYear"
+                  type="text"
+                  id="Nombre"
+                  class="border border-[#BED2DF] bg-white text-primary rounded-lg h-9 w-full relative justify-between flex px-2 items-center"
+                  placeholder=""
+                  maxlength="4"
+                />
+              </div>
+            </div>
             <UiSelect
               v-model:model-value="selectedBrand"
               class="mb-4 z-[2]"
               label="Marca"
               placeholder="Selecciona la marca"
               :options="brands"
-            />
-            <UiSelect
-              v-model:model-value="selectedCategory"
-              class="mb-4 z-[3]"
-              label="Año"
-              placeholder="Selecciona el año"
-              :options="LIST_CATEGORY"
             />
             <div class="w-full">
               <button type="button" class="btn-filter">FILTRAR</button>

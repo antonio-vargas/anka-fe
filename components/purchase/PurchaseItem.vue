@@ -2,25 +2,11 @@
 import MarkerTruckIcon from '@/components/ui/icons/MarkerTruckIcon.vue'
 import RequestQuoteIcon from '@/components/ui/icons/RequestQuoteIcon.vue'
 const { machineries, getMachineById } = useMachinery();
+import type { IMachinery } from '@/types'
 
 interface Props {
   index: number,
-  machinery: {
-    id: string | null,
-    name: string;
-    weight: string;
-    hourmeter: string;
-    odometer: string;
-    mfg_date: string;
-    subcategory: {
-      name: string;
-      id: number | null;
-    },
-    location: {
-      name: string;
-      id: number | null;
-    }
-  } | null;
+  machinery: IMachinery | null;
 }
 
 const props = withDefaults(defineProps<Props>(), {

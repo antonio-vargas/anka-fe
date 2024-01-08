@@ -69,7 +69,7 @@ const handleToggleOptions = () => {
   }
   &__field {
     @apply h-9 w-full relative justify-between flex px-2 items-center;
-    @apply border border-[#BED2DF] bg-white text-primary rounded-3xl;
+    @apply border border-[#BED2DF] bg-white text-primary rounded-lg;
   }
   &__options {
     @apply absolute top-9 left-0 w-full rounded-md;

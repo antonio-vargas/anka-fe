@@ -1,9 +1,9 @@
 import {useHttp} from './useHttp'
-import { IMachinery } from '@/types'
+import type { IMachinery } from '@/types'
 
 export default function useMachinery() {
   const machineries = ref<IMachinery[]>([]);
-  const machinery = ref<IMachinery>(null);
+  const machinery = ref<IMachinery | null>(null);
   const loadingMachineries = ref(true)
   const loadingMachinery = ref(true)
   const errorEmployee = ref('')
