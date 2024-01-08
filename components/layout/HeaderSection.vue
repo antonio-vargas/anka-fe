@@ -18,7 +18,9 @@ const handleToggleMenu = (value: boolean) => {
   <header class="header" :class="{'header-custom': isCustomHeader}">
     <div class="header__content container">
       <div class="header__logo">
-        <img src="~/assets/img/anka-logo.svg" alt="Anka" />
+        <NuxtLink to="/">
+          <img src="~/assets/img/anka-logo.svg" alt="Anka" />
+        </NuxtLink>
       </div>
       <div class="header__burger">
         <button type="button" class="btn-burger" @click="handleToggleMenu(true)">

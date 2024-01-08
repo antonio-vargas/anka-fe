@@ -8,7 +8,7 @@ import { ArrowDownIcon } from '@/components/ui/icons'
 interface Props {
   label: string
   placeholder: string
-  options: Array<any>
+  options: any[]
   modelValue: any
 }
 
@@ -46,7 +46,7 @@ const handleToggleOptions = () => {
       <div class="ui-select__options" v-if="toggleOptions">
         <div
           v-for="(item, index) in options"
-          :key="`${index}`"
+          :key="`${label}_${index}`"
           class="ui-select__option"
           :class="{
            'bg-primary/20': props.modelValue?.name === item.name

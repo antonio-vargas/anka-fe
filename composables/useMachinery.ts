@@ -10,59 +10,71 @@ interface IEmployee {
 }
 
 export default function useMachinery() {
-  const employees = ref([]);
-  const loadingEmployee = ref(true)
+  const machineries = ref([]);
+  const machinery = ref([]);
+  const loadingMachineries = ref(true)
+  const loadingMachinery = ref(true)
   const errorEmployee = ref('')
   const totalEmployee = ref(0)
 
-  async function getMachines(params: string = '') {
-    loadingEmployee.value = true
-    await useHttp(`machinery${params}`, {
+  async function getMachineries(params: string = '') {
+    console.log('ici-getMachineries')
+    loadingMachineries.value = true
+    await useHttp(`machinery/search${params}`, {
       method: 'GET',
       onResponse({ response }) {
-        console.log('onResponse-machinery', response)
-        const { data, status, total } = response._data
-        if (status === 'success') {
-          employees.value = data
-          totalEmployee.value = total
-        }
-        loadingEmployee.value = false
+        console.log('onResponse-machinery', response._data.data)
+        // const { data, status, total } = response._data
+        machineries.value = response._data.data
+        // totalEmployee.value = total
+        loadingMachineries.value = false
       },
       onResponseError({ response }) {
+        console.log('onResponseError-machinery', response)
         const data = response._data as ErrorCulqi
         errorEmployee.value = data?.message || 'Hubo un error, vuelva a intentar'
-        loadingEmployee.value = false
+        loadingMachineries.value = false
       }
     });
   }
 
   async function getMachineById(params: string = '') {
-    loadingEmployee.value = true
+    loadingMachinery.value = true
     await useHttp(`machinery/2`, {
       method: 'GET',
       onResponse({ response }) {
         console.log('onResponse-machinery/2', response)
         const { data, status, total } = response._data
         if (status === 'success') {
-          employees.value = data
+          machinery.value = data
           totalEmployee.value = total
         }
-        loadingEmployee.value = false
+        loadingMachinery.value = false
       },
       onResponseError({ response }) {
         const data = response._data as ErrorCulqi
         errorEmployee.value = data?.message || 'Hubo un error, vuelva a intentar'
-        loadingEmployee.value = false
+        loadingMachinery.value = false
       }
     });
   }
 
   return {
-    getMachines,
+    getMachineries,
     getMachineById,
     totalEmployee,
-    employees,
-    loadingEmployee,
+    machineries: computed(() => {
+      return machineries.value
+    }),
+    machinery: computed(() => {
+      return machinery.value
+    }),
+    loadingMachineries: computed(() => {
+      return loadingMachineries.value
+    }),
+    loadingMachinery: computed(() => {
+      return loadingMachinery.value
+    }),
     errorEmployee
   };
 }

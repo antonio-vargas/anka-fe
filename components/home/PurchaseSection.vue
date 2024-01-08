@@ -40,7 +40,7 @@ onUnmounted(() => {
   <section class="purchase-section">
     <div class="container relative mx-auto">
       <div class="purchase-section__header">
-        <p class="label-page">MAQUINARIAS Y  VEHÍCULOS</p>
+        <p class="label-page">MAQUINARIAS Y VEHÍCULOS</p>
         <h3>DISPONIBLES PARA COMPRAR</h3>
         <p class="message-page">Contamos con una amplia gama de maquinarias y vehículos para distintas industrias</p> 
       </div>

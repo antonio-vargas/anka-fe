@@ -3,31 +3,52 @@ import MarkerTruckIcon from '@/components/ui/icons/MarkerTruckIcon.vue'
 import RequestQuoteIcon from '@/components/ui/icons/RequestQuoteIcon.vue'
 
 interface Props {
-  index: number
+  index: number,
+  machinery: {
+    name: string;
+    weight: string;
+    hourmeter: string;
+    odometer: string;
+    mfg_date: string;
+    subcategory: {
+      name: string;
+      id: number | null;
+    },
+    location: {
+      name: string;
+      id: number | null;
+    }
+  }
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   index: 1
+})
+
+const formattedYear = computed(() => {
+  if (!props.machinery) return '-'
+  const [year, month, day] = props.machinery.mfg_date.split('T')[0].split('-')
+  return year
 })
 
 </script>
 <template>
   <div class="purchase">
     <div class="purchase__inner">
-      <NuxtLink :to="'/buy/producto-prueba'" class="purchase__header">
+      <NuxtLink :to="`/buy/${machinery.id}`" class="purchase__header">
         <div class="purchase__image">
-          <img src="~/assets/img/purchase-item.jpg" />
+          <!-- <img :src="machinery.images[0]" /> -->
         </div>
-        <div class="purchase__year">2021</div>
+        <div class="purchase__year">{{ formattedYear }}</div>
         <div class="purchase__subcategory">
-          <span>Retroescabadora</span>
+          <span>{{ machinery?.subcategory?.name || '-' }}</span>
         </div>
       </NuxtLink>
       <div class="purchase__body">
-        <NuxtLink :to="'/buy/producto-prueba'" class="purchase__name">NOMBRE DEL VEHÍCULO {{ index }}</NuxtLink>
+        <NuxtLink :to="`/buy/${machinery.id}`" class="purchase__name">{{ machinery.name }}</NuxtLink>
         <div class="purchase__chip">
           <div class="purchase__chip-item">
-            Lima
+            {{ machinery?.location?.name || '-' }}
           </div>
           <div class="purchase__chip-item">
             8,500 hrs

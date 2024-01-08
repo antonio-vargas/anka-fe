@@ -1,11 +1,28 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { TruckIcon, SpareIcon, ArrowRightBigIcon } from '@/components/ui/icons'
 import PurchaseItem from '@/components/purchase/PurchaseItem.vue'
 import UiSelect from '@/components/ui/form/UiSelect.vue'
 
 import { LIST_CATEGORY } from '@/constants/category'
 const selectedCategory = ref()
+const selectedLocation = ref()
+const selectedBrand = ref()
+const subcategoryOptions = ref([])
+const { machineries, getMachineries } = useMachinery();
+const { brands, locations, categories, getBrands, getLocations, getCategories } = useFilter();
+
+onMounted(async () => {
+  await getBrands()
+  await getLocations()
+  await getCategories()
+  await getMachineries()
+})
+
+const handleSelectCategory = (value: any) => {
+  console.log('handleSelectCategory', value)
+}
+
 </script>
 <template>
   <div class="purchase-page">
@@ -16,37 +33,38 @@ const selectedCategory = ref()
             <h3 class="filter__title">Filtrar</h3>
             <UiSelect
               v-model:model-value="selectedCategory"
-              class="mb-4"
+              class="mb-4 z-[6]"
               label="Categoría"
               placeholder="Selecciona la categoría"
-              :options="LIST_CATEGORY"
+              :options="categories"
+              @update:model-value="handleSelectCategory"
             />
             <UiSelect
               v-model:model-value="selectedCategory"
-              class="mb-4"
+              class="mb-4 z-[5]"
               label="Subcategoría"
               placeholder="Selecciona la subcategoría"
               :options="LIST_CATEGORY"
             />
             <UiSelect
-              v-model:model-value="selectedCategory"
-              class="mb-4"
+              v-model:model-value="selectedLocation"
+              class="mb-4 z-[4]"
               label="Ubicación"
               placeholder="Selecciona la ciudad"
-              :options="LIST_CATEGORY"
+              :options="locations"
             />
             <UiSelect
-              v-model:model-value="selectedCategory"
-              class="mb-4"
-              label="Año"
-              placeholder="Selecciona el año"
-              :options="LIST_CATEGORY"
-            />
-            <UiSelect
-              v-model:model-value="selectedCategory"
-              class="mb-4"
+              v-model:model-value="selectedBrand"
+              class="mb-4 z-[2]"
               label="Marca"
               placeholder="Selecciona la marca"
+              :options="brands"
+            />
+            <UiSelect
+              v-model:model-value="selectedCategory"
+              class="mb-4 z-[3]"
+              label="Año"
+              placeholder="Selecciona el año"
               :options="LIST_CATEGORY"
             />
             <div class="w-full">
@@ -56,7 +74,11 @@ const selectedCategory = ref()
         </div>
         <div class="purchase__result pt-10">
           <div class="grid grid-cols-3 gap-6">
-            <PurchaseItem v-for="index in 8" :key="`PURCHASE_${index}`" />
+            <PurchaseItem
+              v-for="item in machineries"
+              :key="`MACHINERY_CARD_${item.id || null}`"
+              :machinery="item"
+            />
           </div>
         </div>
       </div>
