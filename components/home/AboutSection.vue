@@ -40,7 +40,7 @@ import { ArrowRightIcon, EagleIcon } from '@/components/ui/icons'
   @apply relative w-full pt-9 pb-[102px];
   @apply bg-primary text-white;
   background: {
-    image: url('~/assets/img/about-bg.jpg');
+    image: url('~/assets/img/about-page-bg.jpg');
     repeat: no-repeat;
     size: cover;
     position: top center;
