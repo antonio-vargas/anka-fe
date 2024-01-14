@@ -1,8 +1,10 @@
+import type { MachinaryPropertyObject, MachineryCategory } from '@/types';
 import {useHttp} from './useHttp'
+
 export default function useFilter() {
-  const brands = ref([]);
-  const locations = ref([]);
-  const categories = ref([]);
+  const brands = ref<MachinaryPropertyObject[]>([]);
+  const locations = ref<MachinaryPropertyObject[]>([]);
+  const categories = ref<MachineryCategory[]>([]);
 
   async function getBrands(params: string = '') {
     console.log('ici-getBrands')

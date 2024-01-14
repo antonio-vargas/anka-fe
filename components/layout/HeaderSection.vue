@@ -44,7 +44,7 @@ const handleToggleMenu = (value: boolean) => {
             <NuxtLink to="/spare">REPUESTO</NuxtLink>
           </li>
           <li class="li-announce">
-            <button type="button" class="btn-announce">ANUNCIA TU MAQUINA</button>
+            <NuxtLink to="/announce-machine" class="btn-announce">ANUNCIA TU MAQUINA</NuxtLink>
           </li>
         </ul>
       </div>

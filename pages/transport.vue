@@ -125,7 +125,13 @@ import OtherServiceBg from '@/components/ui/OtherServiceBg.vue'
       }
       .transport {
         @apply  gap-4 flex flex-col relative z-10;
-        @apply pt-5 lg:pt-[80px] pl-3 lg:pl-[60px] pr-[50px] lg:pr-[165px];
+        @apply pt-5 pl-3 pr-[50px] ;
+        @screen lg {
+          @apply pt-[48px] pl-[25px] pr-[120px];
+        }
+        @screen xl {
+          @apply pt-[80px] pl-[60px] pr-[165px];
+        }
         // @apply -ml-[40px];
         &__item {
           @apply flex w-full gap-3 items-start justify-between;

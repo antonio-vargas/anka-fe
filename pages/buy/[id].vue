@@ -116,6 +116,9 @@
         </div>
       </div>
     </div>
+    <button class="fixed bottom-10 right-10 w-14 h-14 z-[1200]" @click="handleWhatsapp">
+      <WhatsappIcon />
+    </button>
     <!-- <div class="purchase__alternatives">
       <div class="container relative mx-auto">
         <div class="flex flex-col gap-3 text-primary-light font-telegraf-black w-full text-center mb-8">
@@ -145,7 +148,7 @@
 import { computed, onMounted, ref } from 'vue'
 import productDetail from "@/assets/img/product-detail-test.jpg"
 import { type Options, Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide'
-import { MarkerTruckIcon, CalendarIcon, WeightIcon, MeterIcon, RequestQuoteIcon, DownloadIcon, ArrowRightBigIcon } from '~/components/ui/icons';
+import { MarkerTruckIcon, CalendarIcon, WeightIcon, MeterIcon, RequestQuoteIcon, DownloadIcon, ArrowRightBigIcon, WhatsappIcon } from '~/components/ui/icons';
 import PurchaseItem from '@/components/purchase/PurchaseItem.vue'
 const route = useRoute()
 
@@ -201,6 +204,13 @@ const formattedYear = computed(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize);
 });
+
+const handleWhatsapp = () => {
+  const layoutText = `Buenas Anka, pueden brindarme más información del producto\nNombre: ${machinery.value?.name}\nCategoría y subcategoría: ${machinery.value?.category?.name} - ${machinery.value?.subcategory?.name}`
+  const text = encodeURIComponent(layoutText)
+  // console.log(`https://wa.me/+51993305902?text=${text}`)
+  window.open(`https://wa.me/+51982771045?text=${text}`, '_blank')
+}
 
 </script>
 <style lang="scss" scoped>

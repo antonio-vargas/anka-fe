@@ -6,7 +6,14 @@ export interface MachinaryImages {
 export interface MachinaryPropertyObject {
   id: number
   name: string
-  createdAt: string
+  createdAt?: string
+}
+
+export interface MachineryCategory {
+  id: number
+  name: string
+  createdAt?: string
+  children: MachinaryPropertyObject[]
 }
 
 export interface IMachinery {
@@ -24,7 +31,7 @@ export interface IMachinery {
   is_for_sale: boolean;
   is_for_rent: boolean;
   complementary_service: string;
-  category: MachinaryPropertyObject;
+  category: MachineryCategory;
   subcategory: MachinaryPropertyObject;
   brand: MachinaryPropertyObject;
   location: MachinaryPropertyObject;

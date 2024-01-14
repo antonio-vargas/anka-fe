@@ -4,6 +4,7 @@ import type { mergeProps } from 'vue';
 import { isEmpty } from 'lodash'
 import { ref } from 'vue'
 import { ArrowDownIcon } from '@/components/ui/icons'
+import type { MachinaryPropertyObject } from '@/types'
 
 interface Props {
   label: string
