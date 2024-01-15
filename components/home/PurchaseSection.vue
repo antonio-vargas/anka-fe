@@ -4,6 +4,7 @@ import { type Options, Splide, SplideSlide, SplideTrack } from '@splidejs/vue-sp
 // import { Carousel, Navigation, Slide } from 'vue3-carousel'
 import PurchaseItem from '@/components/purchase/PurchaseItem.vue'
 import { ArrowRightBigIcon } from '~/components/ui/icons';
+const { machineries, getMachineries } = useMachinery();
 
 const windowWidth = ref<number>(0);
 
@@ -28,6 +29,7 @@ const options = computed(() => {
 
 onMounted(() => {
   handleResize()
+  getMachineries('?page=1&pageSize=3')
   window.addEventListener('resize', handleResize);
 });
 
@@ -49,8 +51,11 @@ onUnmounted(() => {
           <Splide :options="options" :has-track="false" >
             <div class="custom-wrapper">
               <SplideTrack>
-                <SplideSlide v-for="slide in 10" :key="slide">
-                  <PurchaseItem :index="slide"/>
+                <SplideSlide v-for="(item, index) in machineries" :key="`MACHINERY_CARD_${index}`">
+                  <PurchaseItem 
+                    
+                    :index="index"
+                    :machinery="item"/>
                 </SplideSlide>
               </SplideTrack>
               <div class="splide__arrows">

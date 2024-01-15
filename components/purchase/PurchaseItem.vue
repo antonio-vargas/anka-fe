@@ -16,13 +16,6 @@ const props = withDefaults(defineProps<Props>(), {
   machinery: null
 })
 
-
-const formattedYear = computed(() => {
-  if (!props.machinery) return '-'
-  const [year, month, day] = props.machinery.mfg_date.split('T')[0].split('-')
-  return year
-})
-
 </script>
 <template>
   <div class="purchase">
@@ -35,7 +28,7 @@ const formattedYear = computed(() => {
         >
           <img class="hidden" :src="machinery.images[0].image_link" />
         </div>
-        <div class="purchase__year">{{ formattedYear }}</div>
+        <div class="purchase__year">{{ machinery.mfg_year }}</div>
         <div class="purchase__subcategory">
           <span>{{ machinery?.category?.name || '-' }}</span>
         </div>

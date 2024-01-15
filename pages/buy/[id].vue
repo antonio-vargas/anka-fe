@@ -49,7 +49,7 @@
               <div class="w-full flex">
                 <div class="flex-1 flex gap-3 min-h-[70px] items-center justify-center">
                   <CalendarIcon />
-                  <span class="text-base ">{{ formattedYear }}</span>
+                  <span class="text-base ">{{ machinery.mfg_year }}</span>
                 </div>
                 <div class="flex-1 flex gap-3 min-h-[70px] items-center justify-center border-l border-white/30">
                   <WeightIcon />
@@ -197,7 +197,7 @@ const options = computed(() => {
 
 const formattedYear = computed(() => {
   if (!machinery.value) return '-'
-  const [year, _] = machinery.value.mfg_date?.split('T')[0].split('-')
+  const [year, _] = machinery.value.mfg_year
   return year
 })
 

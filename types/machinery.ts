@@ -21,7 +21,7 @@ export interface IMachinery {
   name: string;
   slug: string;
   description: string;
-  mfg_date: string;
+  mfg_year: string;
   weight: number;
   hourmeter: number;
   odometer: number;
