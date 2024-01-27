@@ -3,15 +3,12 @@ import MarkerTruckIcon from '@/components/ui/icons/MarkerTruckIcon.vue'
 import RequestQuoteIcon from '@/components/ui/icons/RequestQuoteIcon.vue'
 import type { IMachinery } from '@/types'
 
-
-const { machineries, getMachineById } = useMachinery();
-
 interface Props {
   index: number,
   machinery: IMachinery | null;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   index: 1,
   machinery: null
 })
@@ -28,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
         >
           <img class="hidden" :src="machinery.images[0].image_link" />
         </div>
-        <div class="purchase__year">{{ machinery.mfg_year }}</div>
+        <div class="purchase__year">{{ machinery?.location?.name || '-' }}</div>
         <div class="purchase__subcategory">
           <span>{{ machinery?.category?.name || '-' }}</span>
         </div>
@@ -37,10 +34,10 @@ const props = withDefaults(defineProps<Props>(), {
         <NuxtLink :to="`/buy/${machinery.id}`" class="purchase__name">{{ machinery.name }}</NuxtLink>
         <div class="purchase__chip">
           <div class="purchase__chip-item">
-            {{ machinery?.location?.name || '-' }}
+            {{ machinery.mfg_year }}
           </div>
           <div class="purchase__chip-item">
-            8,500 hrs
+            {{ machinery.hourmeter || 0 }} hrs
           </div>
         </div>
       </div>
@@ -64,13 +61,14 @@ const props = withDefaults(defineProps<Props>(), {
   }
 
   &__image {
-    @apply w-full h-[340px] relative;
+    @apply w-full h-[280px] relative;
     background: {
       size: cover;
       repeat: no-repeat;
       position: top center;
     }
     @screen lg {
+      @apply h-[340px];
       background-image: none;
     }
   }
@@ -98,7 +96,7 @@ const props = withDefaults(defineProps<Props>(), {
   }
 
   &__actions {
-    @apply w-full relative invisible;
+    @apply w-full relative;
     .btn-quote{
       @apply flex items-center justify-center h-[42px] w-full;
       @apply bg-secondary text-white rounded-3xl text-sm font-telegraf-black font-bold uppercase;
@@ -116,10 +114,14 @@ const props = withDefaults(defineProps<Props>(), {
       }
     }
   }
-
-  &:hover {
-    .purchase__actions {
-      @apply visible;
+  @screen lg {
+    &__actions {
+      @apply invisible;
+    }
+    &:hover {
+      .purchase__actions {
+        @apply visible;
+      }
     }
   }
 }

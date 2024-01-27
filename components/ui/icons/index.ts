@@ -18,3 +18,4 @@ export { default as ShoppingIcon } from './ShoppingIcon.vue';
 export { default as DownloadIcon } from './DownloadIcon.vue';
 export { default as FilterIcon } from './FilterIcon.vue';
 export { default as WhatsappIcon } from './WhatsappIcon.vue';
+export { default as SearchIcon } from './SearchIcon.vue';

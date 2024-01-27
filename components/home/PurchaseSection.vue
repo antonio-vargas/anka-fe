@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { type Options, Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide'
 // import { Carousel, Navigation, Slide } from 'vue3-carousel'
 import PurchaseItem from '@/components/purchase/PurchaseItem.vue'
-import { ArrowRightBigIcon } from '~/components/ui/icons';
+import { ArrowRightIcon, ArrowRightBigIcon } from '~/components/ui/icons';
 const { machineries, getMachineries } = useMachinery();
 
 const windowWidth = ref<number>(0);
@@ -28,6 +28,7 @@ const options = computed(() => {
 })
 
 onMounted(() => {
+  console.log('ewqewq')
   handleResize()
   getMachineries('?page=1&pageSize=3')
   window.addEventListener('resize', handleResize);
@@ -53,12 +54,21 @@ onUnmounted(() => {
               <SplideTrack>
                 <SplideSlide v-for="(item, index) in machineries" :key="`MACHINERY_CARD_${index}`">
                   <PurchaseItem 
-                    
                     :index="index"
                     :machinery="item"/>
                 </SplideSlide>
+                <SplideSlide :key="`MACHINERY_CARD_ALL`">
+                  <div class="machinery-all">
+                    <div>
+                      <img src="~/assets/img/machinery-all.png" />
+                    </div>
+                    <div class="w-full text-right pr-5">
+                      <NuxtLink to="/buy" class="inline-flex gap-1 ">MOSTRAR TODO <ArrowRightIcon /></NuxtLink>
+                    </div>
+                  </div>
+                </SplideSlide>
               </SplideTrack>
-              <div class="splide__arrows">
+              <div class="splide__arrows xl:!hidden">
                 <button class="splide__arrow splide__arrow--prev"><ArrowRightBigIcon class="rotate-180" /></button>
                 <button class="splide__arrow splide__arrow--next"><ArrowRightBigIcon /></button>
               </div>
@@ -126,6 +136,14 @@ onUnmounted(() => {
     }
     &:deep(.splide__arrow) {
 
+    }
+  }
+  .machinery-all{
+    @apply border border-primary rounded-lg overflow-hidden text-primary;
+    @apply pt-10 pb-4;
+    @apply flex flex-col gap-5 justify-center;
+    a {
+      @apply font-telegraf-black font-bold text-base inline-flex items-center justify-end;
     }
   }
 }

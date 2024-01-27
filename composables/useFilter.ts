@@ -5,6 +5,7 @@ export default function useFilter() {
   const brands = ref<MachinaryPropertyObject[]>([]);
   const locations = ref<MachinaryPropertyObject[]>([]);
   const categories = ref<MachineryCategory[]>([]);
+  const compatibilities = ref<MachinaryPropertyObject[]>([]);
 
   async function getBrands(params: string = '') {
     console.log('ici-getBrands')
@@ -50,11 +51,15 @@ export default function useFilter() {
         // console.log('onResponse-categories', response._data)
         // const { data, status, total } = response._data
         categories.value = response._data
+        compatibilities.value = response._data.reduce((acc, current) => {
+          return acc.concat(current.children)
+        }, [])
         // totalEmployee.value = total
       },
       onResponseError({ response }) {
         console.log('onResponseError-categories', response)
         categories.value = []
+        compatibilities.value = []
       }
     });
   }
@@ -63,6 +68,9 @@ export default function useFilter() {
     getBrands,
     getLocations,
     getCategories,
+    compatibilities: computed(() => {
+      return compatibilities.value
+    }),
     brands: computed(() => {
       return brands.value
     }),

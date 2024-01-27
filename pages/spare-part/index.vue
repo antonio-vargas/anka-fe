@@ -1,22 +1,19 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useOffsetPagination } from '@vueuse/core'
-import { TruckIcon, SpareIcon, SearchIcon, ArrowRightBigIcon, FilterIcon } from '@/components/ui/icons'
-import PurchaseItem from '@/components/purchase/PurchaseItem.vue'
+import { TruckIcon, SpareIcon, ArrowRightBigIcon, FilterIcon, SearchIcon } from '@/components/ui/icons'
+import SparePartItem from '@/components/spare/SparePartItem.vue'
 import UiSelect from '@/components/ui/UiSelect.vue'
 import type { MachinaryPropertyObject, MachineryCategory } from '@/types';
 
-const selectedCategory = ref<MachinaryPropertyObject | null>(null)
-const selectedSubcategory = ref<MachinaryPropertyObject | null>(null)
+const selectedCompatibility = ref<MachinaryPropertyObject | null>(null)
 const selectedLocation = ref<MachinaryPropertyObject | null>(null)
 const selectedBrand = ref<MachinaryPropertyObject | null>(null)
-const selectedYear = ref<string>()
 const toggleFilter = ref<boolean>(false)
-const subcategoryOptions = ref<MachinaryPropertyObject[]>([])
 const page = ref<number>(1)
 
-const { machineries, loadingMachineries, totalMachineries, getMachineries } = useMachinery();
-const { brands, locations, categories, getBrands, getLocations, getCategories } = useFilter();
+const { spareParts, loadingSpareParts, totalSpareParts, getSpareParts } = useSparePart();
+const { brands, locations, compatibilities, getBrands, getLocations, getCategories } = useFilter();
 
 const {
   currentPage,
@@ -27,13 +24,13 @@ const {
   prev,
   next,
 } = useOffsetPagination({
-  total: totalMachineries,
-  page: 1,
+  total: totalSpareParts,
+  page: page.value,
   pageSize: 6,
   onPageChange: ({ currentPage, currentPageSize }) => {
     const params = `?page=${currentPage}&pageSize=6`
     page.value = currentPage
-    return getMachineries(params)
+    return getSpareParts(params)
   },
 })
 
@@ -41,36 +38,21 @@ onMounted(async () => {
   await getBrands()
   await getLocations()
   await getCategories()
-  await getMachineries('?page=1&pageSize=6')
-})
-
-const handleSelectCategory = (value: any) => {
-  console.log('handleSelectCategory', value)
-  const index = categories.value.findIndex(e => e.id === value.id)
-  if (index >= 0) {
-    subcategoryOptions.value = categories.value[index].children
-  }
-}
-
-const disabledBtnClear = computed(() => {
-  return selectedCategory.value === null &&
-    selectedSubcategory.value === null &&
-    selectedLocation.value === null &&
-    selectedBrand.value === null &&
-    selectedYear.value === null
+  await getSpareParts('?page=1&pageSize=6')
 })
 
 const handleToggleFilter = () => {
   toggleFilter.value = !toggleFilter.value
 }
 
+const disabledBtnClear = computed(() => {
+  return selectedCompatibility.value === null && selectedLocation.value === null && selectedBrand.value === null
+})
+
 const handleSearchFilter = async () => {
   let params = ''
-  if (selectedCategory.value) {
-    params += `&category=${selectedCategory.value?.name}`
-  }
-  if (selectedSubcategory.value) {
-    params += `&subcategory=${selectedSubcategory.value?.name}`
+  if (selectedCompatibility.value) {
+    params += `&compatibility=${selectedCompatibility.value?.name}`
   }
   if (selectedLocation.value) {
     params += `&location=${selectedLocation.value?.name}`
@@ -78,33 +60,28 @@ const handleSearchFilter = async () => {
   if (selectedBrand.value) {
     params += `&brand=${selectedBrand.value?.name}`
   }
-  if (selectedYear.value) {
-    params += `&year=${selectedYear.value}`
-  }
   page.value = 1
-  await getMachineries(`?page=${page.value}&pageSize=6${params}`)
+  await getSpareParts(`?page=${page.value}&pageSize=6${params}`)
 }
 
 const handleClearFilter = async () => {
-  selectedCategory.value = null
-  selectedSubcategory.value = null
+  selectedCompatibility.value = null
   selectedLocation.value = null
   selectedBrand.value = null
-  await getMachineries('?page=1&pageSize=6')
+  await getSpareParts('?page=1&pageSize=6')
 }
-
 </script>
 <template>
-  <div class="purchase-page">
+  <div class="sparepart-page">
     <div class="container mx-auto px-3 lg:px-0 relative">
-      <div class="purchase__wrapper">
-        <div class="purchase__filter">
+      <div class="sparepart__wrapper">
+        <div class="sparepart__filter">
           <div class="filter">
             <div class="filter__title">
               <p class="hidden md:block">Filtrar</p>
               <button class="btn-toggle-filter" type="button" @click="handleToggleFilter"><FilterIcon />Filtrar</button>
               <div class="block md:hidden uppercase text-xs font-telegraf-regular">
-                {{ machineries.length }} RESULTADOS
+                {{ spareParts.length }} RESULTADOS
               </div>
             </div>
             <div v-show="toggleFilter" class="filter__form">
@@ -118,19 +95,11 @@ const handleClearFilter = async () => {
                   </button>
                 </div>
                 <UiSelect
-                  v-model:model-value="selectedCategory"
-                  class="mb-4 z-[6]"
-                  label="Categoría"
-                  placeholder="Selecciona la categoría"
-                  :options="categories"
-                  @update:model-value="handleSelectCategory"
-                />
-                <UiSelect
-                  v-model:model-value="selectedSubcategory"
+                  v-model:model-value="selectedCompatibility"
                   class="mb-4 z-[5]"
-                  label="Subcategoría"
-                  placeholder="Selecciona la subcategoría"
-                  :options="subcategoryOptions"
+                  label="Compatibilidad"
+                  placeholder="Selecciona la compatibilidad"
+                  :options="compatibilities"
                 />
                 <UiSelect
                   v-model:model-value="selectedLocation"
@@ -139,20 +108,6 @@ const handleClearFilter = async () => {
                   placeholder="Selecciona la ciudad"
                   :options="locations"
                 />
-                <div class="w-full flex flex-col gap-1 mb-4">
-                  <label class="font-telegraf-black font-bold text-base uppercase">Año</label>
-                  <div class="relative w-full">
-                    <input
-                      v-model="selectedYear"
-                      type="text"
-                      id="Nombre"
-                      class="border border-[#BED2DF] bg-white text-primary rounded-lg h-9 w-full relative justify-between flex px-2 items-center"
-                      onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                      placeholder=""
-                      maxlength="4"
-                    />
-                  </div>
-                </div>
                 <UiSelect
                   v-model:model-value="selectedBrand"
                   class="mb-4 z-[2]"
@@ -178,34 +133,34 @@ const handleClearFilter = async () => {
           </div>
         </div>
         <div
-          class="purchase__result pt-0 md:pt-10"
+          class="sparepart__result pt-0 md:pt-10"
           :class="{
-            'md:justify-end': !loadingMachineries,
-            'md:justify-center': loadingMachineries
+            'md:justify-end': !loadingSpareParts,
+            'md:justify-center': loadingSpareParts
           }"
         >
-          <div v-if="loadingMachineries" class="w-full text-center mb-10">
+          <div v-if="loadingSpareParts" class="w-full text-center mb-10">
             <svg class="animate-spin h-20 w-20 text-primary mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
           </div>
           <div
-            v-if="!loadingMachineries && machineries.length === 0"
+            v-if="!loadingSpareParts && spareParts.length === 0"
             class="w-full text-center"
           >
             <SearchIcon class="text-[#B9C8D0] w-[207px] h-[207px] mx-auto mb-10" />
             <p class="text-primary text-base font-telegraf-black font-bold">NO SE ENCONTRARON RESULTADOS A TU BÚSQUEDA</p>
           </div>
-          <div class="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6 w-full">
-            <PurchaseItem
-              v-for="(item, index) in machineries"
-              :key="`MACHINERY_CARD_${index}`"
+          <div v-if="!loadingSpareParts && spareParts.length > 0" class="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6 w-full">
+            <SparePartItem
+              v-for="(item, index) in spareParts"
+              :key="`SPARE_PART_CARD_${index}`"
               :index="index"
-              :machinery="item"
+              :spare-part="item"
             />
           </div>
-          <div v-if="machineries.length > 0" class="w-full relative flex justify-center gap-3 items-center mt-6">
+          <div v-if="spareParts.length > 0" class="w-full relative flex justify-center gap-3 items-center mt-6">
             <button
               class="w-9 h-9 rounded-full border border-primary"
               :class="{
@@ -231,7 +186,7 @@ const handleClearFilter = async () => {
         </div>
       </div>
     </div>
-    <div class="purchase__service">
+    <div class="sparepart__service">
       <div class="container mx-auto relative">
         <h3>Otros de nuestros servicios</h3>
         <div class="service">
@@ -269,13 +224,13 @@ const handleClearFilter = async () => {
   </div>
 </template>
 <style lang="scss" scoped>
-.purchase-page {
+.sparepart-page {
   @apply w-full relative;
   @apply bg-[#DFE6EA] border-b border-[#80A3BA];
-  &:deep(.purchase__inner) {
+  &:deep(.spare__inner) {
     @apply w-full;
   }
-  .purchase {
+  .sparepart {
     &__wrapper {
       @apply flex flex-col md:flex-row w-full;
       @screen lg {

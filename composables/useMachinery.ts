@@ -3,26 +3,27 @@ import type { IMachinery } from '@/types'
 
 export default function useMachinery() {
   const machineries = ref<IMachinery[]>([]);
+  const totalMachineries = ref<number>(0)
   const machinery = ref<IMachinery | null>(null);
   const loadingMachineries = ref(true)
   const loadingMachinery = ref(true)
   const errorEmployee = ref('')
-  const totalEmployee = ref(0)
 
   async function getMachineries(params: string = '') {
     console.log('ici-getMachineries')
-    loadingMachineries.value = true
+    // loadingMachineries.value = true
     await useHttp(`machinery/search${params}`, {
       method: 'GET',
       onResponse({ response }) {
-        // console.log('onResponse-machinery', response._data.data)
+        console.log('onResponse-machinery', response._data)
         // const { data, status, total } = response._data
         machineries.value = response._data.data
-        // totalEmployee.value = total
+        totalMachineries.value = response._data.totalCount
         loadingMachineries.value = false
       },
       onResponseError({ response }) {
         console.log('onResponseError-machinery', response)
+        totalMachineries.value = 0
         // const data = response._data as ErrorCulqi
         // errorEmployee.value = data?.message || 'Hubo un error, vuelva a intentar'
         loadingMachineries.value = false
@@ -51,15 +52,17 @@ export default function useMachinery() {
   return {
     getMachineries,
     getMachineById,
-    totalEmployee,
+    totalMachineries: computed(() => {
+      return totalMachineries.value
+    }),
     machineries: computed(() => {
       return machineries.value
     }),
-    machinery: computed(() => {
-      return machinery.value
-    }),
     loadingMachineries: computed(() => {
       return loadingMachineries.value
+    }),
+    machinery: computed(() => {
+      return machinery.value
     }),
     loadingMachinery: computed(() => {
       return loadingMachinery.value

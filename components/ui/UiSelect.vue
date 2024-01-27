@@ -9,7 +9,7 @@ import type { MachinaryPropertyObject } from '@/types'
 interface Props {
   label: string
   placeholder: string
-  options: any[]
+  options: MachinaryPropertyObject[]
   modelValue: any
 }
 
@@ -75,6 +75,7 @@ const handleToggleOptions = () => {
   &__options {
     @apply absolute top-9 left-0 w-full rounded-md;
     @apply bg-white shadow-md;
+    @apply max-h-[240px] overflow-y-auto;
   }
   &__option {
     @apply py-1 px-2;

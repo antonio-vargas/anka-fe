@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-const ROUTER_NAME_HEADER = ['buy', 'buy-id', 'spare', 'spare-id']
+const ROUTER_NAME_HEADER = ['buy', 'buy-id', 'spare-part', 'spare-part-id']
 const route = useRoute()
 
 const toggleMenu = ref<boolean>(false)
@@ -41,7 +41,7 @@ const handleToggleMenu = (value: boolean) => {
             <NuxtLink to="/transport">TRANSPORTE</NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/spare">REPUESTO</NuxtLink>
+            <NuxtLink to="/spare-part">REPUESTO</NuxtLink>
           </li>
           <li class="li-announce">
             <NuxtLink to="/announce-machine" class="btn-announce">ANUNCIA TU MAQUINA</NuxtLink>

@@ -4,8 +4,10 @@ import { type Options, Splide, SplideSlide, SplideTrack } from '@splidejs/vue-sp
 // import { Carousel, Navigation, Slide } from 'vue3-carousel'
 import ArrowRightIcon from '@/components/ui/icons/ArrowRightIcon.vue'
 import EagleIcon from '@/components/ui/icons/EagleIcon.vue'
-import SpareItem from '@/components/spare/SpareItem.vue'
+import SparePartItem from '@/components/spare/SparePartItem.vue'
 import { ArrowRightBigIcon } from '~/components/ui/icons';
+
+const { spareParts, getSpareParts } = useSparePart();
 
 const windowWidth = ref<number>(0);
 
@@ -30,6 +32,7 @@ const options = computed(() => {
 
 onMounted(() => {
   handleResize()
+  getSpareParts('?page=1&pageSize=3')
   window.addEventListener('resize', handleResize);
 });
 
@@ -50,8 +53,20 @@ onUnmounted(() => {
           <Splide :options="options" :has-track="false" >
             <div class="custom-wrapper">
               <SplideTrack>
-                <SplideSlide v-for="slide in 10" :key="slide">
-                  <SpareItem :index="slide"/>
+                <SplideSlide v-for="(item, index) in spareParts" :key="`SPARE_PART_CARD_${index}`">
+                  <SparePartItem
+                    :index="index"
+                    :spare-part="item"/>
+                </SplideSlide>
+                <SplideSlide :key="`SPARE_PART_CARD_ALL`">
+                  <div class="spare-part-all">
+                    <div>
+                      <img src="~/assets/img/spare-part-all.png" />
+                    </div>
+                    <div class="w-full text-right pr-5">
+                      <NuxtLink to="/spare-part" class="inline-flex gap-1 ">MOSTRAR TODO <ArrowRightIcon /></NuxtLink>
+                    </div>
+                  </div>
                 </SplideSlide>
               </SplideTrack>
               <div class="splide__arrows">
@@ -132,6 +147,14 @@ onUnmounted(() => {
     }
     &:deep(.splide__arrow) {
 
+    }
+  }
+  .spare-part-all{
+    @apply border border-primary rounded-lg overflow-hidden text-primary;
+    @apply pt-10 pb-4;
+    @apply flex flex-col gap-5 justify-center;
+    a {
+      @apply font-telegraf-black font-bold text-base inline-flex items-center justify-end;
     }
   }
 }
