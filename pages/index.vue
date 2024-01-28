@@ -22,8 +22,8 @@ import TransportSection from '@/components/home/TransportSection.vue'
     <AboutSection />
     <PurchaseSection />
     <!-- <RentalSection /> -->
-    <SpareSection />
     <TransportSection />
+    <SpareSection />
   </div>
 </template>
 

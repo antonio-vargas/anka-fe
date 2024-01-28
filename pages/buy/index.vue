@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useOffsetPagination } from '@vueuse/core'
 import { TruckIcon, SpareIcon, SearchIcon, ArrowRightBigIcon, FilterIcon } from '@/components/ui/icons'
-import PurchaseItem from '@/components/purchase/PurchaseItem.vue'
+import MachineryItem from '@/components/machinery/MachineryItem.vue'
 import UiSelect from '@/components/ui/UiSelect.vue'
 import type { MachinaryPropertyObject, MachineryCategory } from '@/types';
 
@@ -198,7 +198,7 @@ const handleClearFilter = async () => {
             <p class="text-primary text-base font-telegraf-black font-bold">NO SE ENCONTRARON RESULTADOS A TU BÚSQUEDA</p>
           </div>
           <div class="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6 w-full">
-            <PurchaseItem
+            <MachineryItem
               v-for="(item, index) in machineries"
               :key="`MACHINERY_CARD_${index}`"
               :index="index"

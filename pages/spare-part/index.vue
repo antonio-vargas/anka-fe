@@ -2,7 +2,7 @@
 import { computed, ref, onMounted } from 'vue'
 import { useOffsetPagination } from '@vueuse/core'
 import { TruckIcon, SpareIcon, ArrowRightBigIcon, FilterIcon, SearchIcon } from '@/components/ui/icons'
-import SparePartItem from '@/components/spare/SparePartItem.vue'
+import SparePartItem from '@/components/spare-part/SparePartItem.vue'
 import UiSelect from '@/components/ui/UiSelect.vue'
 import type { MachinaryPropertyObject, MachineryCategory } from '@/types';
 

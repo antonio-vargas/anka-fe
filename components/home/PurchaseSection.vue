@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { type Options, Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide'
 // import { Carousel, Navigation, Slide } from 'vue3-carousel'
-import PurchaseItem from '@/components/purchase/PurchaseItem.vue'
+import MachineryItem from '@/components/machinery/MachineryItem.vue'
 import { ArrowRightIcon, ArrowRightBigIcon } from '~/components/ui/icons';
 const { machineries, getMachineries } = useMachinery();
 
@@ -53,7 +53,7 @@ onUnmounted(() => {
             <div class="custom-wrapper">
               <SplideTrack>
                 <SplideSlide v-for="(item, index) in machineries" :key="`MACHINERY_CARD_${index}`">
-                  <PurchaseItem 
+                  <MachineryItem 
                     :index="index"
                     :machinery="item"/>
                 </SplideSlide>

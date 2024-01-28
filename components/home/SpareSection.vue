@@ -4,7 +4,7 @@ import { type Options, Splide, SplideSlide, SplideTrack } from '@splidejs/vue-sp
 // import { Carousel, Navigation, Slide } from 'vue3-carousel'
 import ArrowRightIcon from '@/components/ui/icons/ArrowRightIcon.vue'
 import EagleIcon from '@/components/ui/icons/EagleIcon.vue'
-import SparePartItem from '@/components/spare/SparePartItem.vue'
+import SparePartItem from '@/components/spare-part/SparePartItem.vue'
 import { ArrowRightBigIcon } from '~/components/ui/icons';
 
 const { spareParts, getSpareParts } = useSparePart();

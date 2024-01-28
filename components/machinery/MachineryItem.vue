@@ -15,33 +15,33 @@ withDefaults(defineProps<Props>(), {
 
 </script>
 <template>
-  <div class="purchase">
-    <div v-if="machinery" class="purchase__inner">
-      <NuxtLink :to="`/buy/${machinery.id}`" class="purchase__header">
+  <div class="machinery">
+    <div v-if="machinery" class="machinery__inner">
+      <NuxtLink :to="`/buy/${machinery.id}`" class="machinery__header">
         <div
           v-if="machinery.images.length"
-          class="purchase__image"
+          class="machinery__image"
           :style="`background-image: url(${machinery.images[0].image_link})`"
         >
           <img class="hidden" :src="machinery.images[0].image_link" />
         </div>
-        <div class="purchase__year">{{ machinery?.location?.name || '-' }}</div>
-        <div class="purchase__subcategory">
+        <div class="machinery__year">{{ machinery?.location?.name || '-' }}</div>
+        <div class="machinery__subcategory">
           <span>{{ machinery?.category?.name || '-' }}</span>
         </div>
       </NuxtLink>
-      <div class="purchase__body">
-        <NuxtLink :to="`/buy/${machinery.id}`" class="purchase__name">{{ machinery.name }}</NuxtLink>
-        <div class="purchase__chip">
-          <div class="purchase__chip-item">
+      <div class="machinery__body">
+        <NuxtLink :to="`/buy/${machinery.id}`" class="machinery__name">{{ machinery.name }}</NuxtLink>
+        <div class="machinery__chip">
+          <div class="machinery__chip-item">
             {{ machinery.mfg_year }}
           </div>
-          <div class="purchase__chip-item">
+          <div class="machinery__chip-item">
             {{ machinery.hourmeter || 0 }} hrs
           </div>
         </div>
       </div>
-      <div class="purchase__actions">
+      <div class="machinery__actions">
         <button class="btn-quote" type="button">
           <RequestQuoteIcon />
           <span>Cotizar</span>
@@ -51,9 +51,9 @@ withDefaults(defineProps<Props>(), {
   </div>
 </template>
 <style lang="scss" scoped>
-.purchase {
+.machinery {
   &__inner {
-    @apply flex gap-3 flex-col w-[300px];
+    @apply flex gap-3 flex-col w-full;
   }
 
   &__header {
@@ -61,7 +61,7 @@ withDefaults(defineProps<Props>(), {
   }
 
   &__image {
-    @apply w-full h-[280px] relative;
+    @apply w-full h-[260px] relative;
     background: {
       size: cover;
       repeat: no-repeat;
@@ -88,11 +88,11 @@ withDefaults(defineProps<Props>(), {
   }
 
   &__body {
-    @apply flex flex-col gap-3;
+    @apply flex flex-col gap-1;
   }
 
   &__name {
-    @apply text-primary text-xl leading-8 font-telegraf-black font-bold uppercase text-left truncate ;
+    @apply text-primary text-base leading-4 md:text-xl md:leading-8 font-telegraf-black font-bold uppercase text-left truncate;
   }
 
   &__actions {

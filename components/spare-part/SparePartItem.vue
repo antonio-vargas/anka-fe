@@ -83,7 +83,7 @@ withDefaults(defineProps<Props>(), {
   }
   .chip-item{
     @apply h-8 w-auto px-3 inline-flex items-center;
-    @apply text-base truncate rounded-3xl border border-primary bg-white;
+    @apply text-base truncate rounded-3xl border font-telegraf-black font-bold text-primary border-primary bg-white uppercase;
     &:last-child{
       @apply shrink-0;
     }

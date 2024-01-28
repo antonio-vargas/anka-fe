@@ -149,7 +149,7 @@ import { computed, onMounted, ref } from 'vue'
 import productDetail from "@/assets/img/product-detail-test.jpg"
 import { type Options, Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide'
 import { MarkerTruckIcon, CalendarIcon, WeightIcon, MeterIcon, RequestQuoteIcon, DownloadIcon, ArrowRightBigIcon, WhatsappIcon } from '~/components/ui/icons';
-import PurchaseItem from '@/components/purchase/PurchaseItem.vue'
+import MachineryItem from '@/components/machinery/MachineryItem.vue'
 const route = useRoute()
 
 const { machinery, loadingMachinery, getMachineById } = useMachinery();

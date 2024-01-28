@@ -20,7 +20,7 @@ export interface ISparePart {
   name: string;
   slug: string;
   description: string;
-  compatibility: SparePartCompatibility;
+  compatibility: SparePartCompatibility[];
   part_number: string;
   complementary_service: string;
   // category: MachineryCategory;

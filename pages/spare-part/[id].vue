@@ -1,6 +1,12 @@
 <template>
   <div class="purchase-page">
-    <div v-if="machinery !== null" class="purchase__info">
+    <div v-if="loadingSparePart" class="w-full text-center py-20 min-h-[600px]">
+      <svg class="animate-spin h-20 w-20 text-primary mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </div>
+    <div v-if="!loadingSparePart && sparePart" class="purchase__info">
       <div class="container px-0 lg:px-3">
         <div class="flex w-full flex-col lg:flex-row">
           <div class="purchase__carousel">
@@ -33,39 +39,51 @@
           <div class="purchase__detail">
             <div class="w-full flex justify-end items-center gap-1 text-white mb-5">
               <MarkerTruckIcon class="text-white w-[29px] h-auto" />
-              <span>{{ machinery.location?.name || '' }}</span>
+              <span>{{ sparePart.location?.name || '' }}</span>
             </div>
             <div class="w-full flex gap-3 flex-col">
               <div class="text-white w-full flex gap-4">
-                <p class="uppercase font-telegraf-regular text-xl lg:text-2xl">{{ machinery.brand?.name || '' }}</p>
-                <div class="h-auto block w-px bg-white/50"></div>
-                <p class="font-telegraf-regular text-xl lg:text-2xl">{{ machinery.category?.name || '' }}</p>
+                <p class="uppercase font-telegraf-regular text-xl lg:text-2xl">{{ sparePart.brand?.name || '' }}</p>
               </div>
               <div>
-                <h1 class="text-white font-telegraf-black font-bold text-2xl lg:text-5xl">{{ machinery.name }}</h1>
+                <h1 class="text-white font-telegraf-black font-bold text-[22px] lg:text-5xl">{{ sparePart.name }}</h1>
+                <p class="text-white font-telegraf-black font-bold text-[22px] lg:text-5xl">{{ sparePart.part_number }}</p>
               </div>
+              <div class="h-px block w-auto bg-white/50"></div>
+              <div class="w-full flex gap-2 flex-col">
+                <p class="text-white font-telegraf-regular text-base leading-8">COMPATIBILIDAD:</p>
+                <div class="w-full flex gap-2 ">
+                  <div
+                    v-for="item in formattedCompatibility"
+                    :key="`CHIP_COMPATIBILITY_${item.id}`"
+                    class="leading-8 text-sm font-telegraf-regular font-normal px-3 border border-white rounded-[28px] text-white items-center flex justify-center"
+                  >
+                    <span>{{ item.name }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-base font-telegraf-regular text-white">{{ sparePart.description }}</div>
             </div>
-            <div class="border-t border-white/30 py-1 border-b text-white font-telegraf-regular my-4">
+            <!-- <div class="border-t border-white/30 py-1 border-b text-white font-telegraf-regular my-4">
               <div class="w-full flex">
                 <div class="flex-1 flex gap-3 min-h-[70px] items-center justify-center">
                   <CalendarIcon />
-                  <span class="text-base ">{{ machinery.mfg_year }}</span>
+                  <span class="text-base ">{{ sparePart.mfg_year }}</span>
                 </div>
                 <div class="flex-1 flex gap-3 min-h-[70px] items-center justify-center border-l border-white/30">
                   <WeightIcon />
-                  <span class="text-base ">{{ machinery.weight }} TN</span>
+                  <span class="text-base ">{{ sparePart.weight }} TN</span>
                 </div>
                 <div class="flex-1 flex gap-3 min-h-[70px] items-center justify-center border-l border-white/30">
                   <MeterIcon />
-                  <span class="text-base ">{{ machinery.hourmeter }} hrs</span>
+                  <span class="text-base ">{{ sparePart.hourmeter }} hrs</span>
                 </div>
               </div>
-            </div>
-            <div class="text-base font-telegraf-regular text-white">{{ machinery.description }}</div>
+            </div> -->
             <div class="w-full mt-5">
               <button class="btn-quote" type="button">
                 <RequestQuoteIcon />
-                <span>Cotizar</span>
+                <span>COMPRAR</span>
               </button>
             </div>
           </div>
@@ -73,34 +91,9 @@
       </div>
     </div>
     <div class="container">
-      <div class="purchase__files">
-        <div class="file">
-          <div class="file__item">
-            <p class="font-telegraf-black text-base lg:text-2xl">Ficha técnica</p>
-            <button type="button" @click="handleDownloadFile('technical_datasheet_link')">
-              <DownloadIcon />
-              <span>DESCARGAR</span>
-            </button>
-          </div>
-          <div class="file__item">
-            <p class="font-telegraf-black text-base lg:text-2xl">Historial de mantenimiento preventivo</p>
-            <button type="button" @click="handleDownloadFile('preventive_maintenance_link')">
-              <DownloadIcon />
-              <span>DESCARGAR</span>
-            </button>
-          </div>
-          <div class="file__item">
-            <p class="font-telegraf-black text-base lg:text-2xl">Historial de mantenimiento correctivo</p>
-            <button type="button" @click="handleDownloadFile('corrective_maintenance_link')">
-              <DownloadIcon />
-              <span>DESCARGAR</span>
-            </button>
-          </div>
-        </div>
-      </div>
       <div class="purchase__other-services">
         <div class="service__head">
-          <div class="service__title">OTROS SERVICIOS COMPLEMENTARIOS</div>
+          <div class="service__title">SERVICIOS COMPLEMENTARIOS</div>
         </div>
         <div class="my-4 bg-primary-light h-px w-full relative"></div>
         <div class="service__body">
@@ -116,7 +109,7 @@
         </div>
       </div>
     </div>
-    <button class="fixed bottom-10 right-10 w-14 h-14 z-[1200]" @click="handleWhatsapp">
+    <button v-if="!loadingSparePart && sparePart" class="fixed bottom-10 right-10 w-14 h-14 z-[1200]" @click="handleWhatsapp">
       <WhatsappIcon />
     </button>
     <!-- <div class="purchase__alternatives">
@@ -130,7 +123,7 @@
             <div class="custom-wrapper">
               <SplideTrack>
                 <SplideSlide v-for="slide in 10" :key="slide">
-                  <PurchaseItem :index="slide"/>
+                  <SparePartItem :index="slide"/>
                 </SplideSlide>
               </SplideTrack>
               <div class="splide__arrows">
@@ -149,10 +142,10 @@ import { computed, onMounted, ref } from 'vue'
 import productDetail from "@/assets/img/product-detail-test.jpg"
 import { type Options, Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide'
 import { MarkerTruckIcon, CalendarIcon, WeightIcon, MeterIcon, RequestQuoteIcon, DownloadIcon, ArrowRightBigIcon, WhatsappIcon } from '~/components/ui/icons';
-import PurchaseItem from '@/components/purchase/PurchaseItem.vue'
+import SparePartItem from '@/components/spare-part/SparePartItem.vue'
 const route = useRoute()
 
-const { machinery, loadingMachinery, getMachineById } = useMachinery();
+const { sparePart, loadingSparePart, getSparePartById } = useSparePart();
 // import '@splidejs/vue-splide/css'
 
 const windowWidth = ref<number>(0);
@@ -162,8 +155,8 @@ const handleResize = () => {
 };
 
 const handleDownloadFile = (payload: string) => {
-  // console.log('handleDownloadFile', payload, machinery.value[payload])
-  window.open(machinery.value[payload], '_blank')
+  // console.log('handleDownloadFile', payload, sparePart.value[payload])
+  // window.open(sparePart.value[payload], '_blank')
 }
 
 const optionsProduct = {
@@ -175,7 +168,7 @@ const optionsProduct = {
 
 onMounted(async () => {
   console.log('id', route.params?.id || '')
-  await getMachineById(`${route.params?.id || ''}`)
+  await getSparePartById(`${route.params?.id || ''}`)
   handleResize()
   window.addEventListener('resize', handleResize);
 });
@@ -195,10 +188,8 @@ const options = computed(() => {
   }
 })
 
-const formattedYear = computed(() => {
-  if (!machinery.value) return '-'
-  const [year, _] = machinery.value.mfg_year
-  return year
+const formattedCompatibility = computed(() => {
+  return sparePart.value?.compatibility.map(e => e.subcategory) || []
 })
 
 onUnmounted(() => {
@@ -206,7 +197,7 @@ onUnmounted(() => {
 });
 
 const handleWhatsapp = () => {
-  const layoutText = `Buenas Anka, pueden brindarme más información del producto\nNombre: ${machinery.value?.name}\nCategoría y subcategoría: ${machinery.value?.category?.name} - ${machinery.value?.subcategory?.name}`
+  const layoutText = `Buenas Anka, pueden brindarme más información del producto\nNombre: ${sparePart.value?.name}\nCategoría y subcategoría: ${sparePart.value} - ${sparePart.value}`
   const text = encodeURIComponent(layoutText)
   // console.log(`https://wa.me/+51993305902?text=${text}`)
   window.open(`https://wa.me/+51982771045?text=${text}`, '_blank')
@@ -269,8 +260,8 @@ const handleWhatsapp = () => {
     &__detail {
       @apply w-full lg:w-1/2 pb-10 lg:pb-0 pt-5 lg:pt-20 pl-3 pr-3 lg:pr-0 lg:pl-8 xl:pl-12;
       .btn-quote{
-        @apply flex items-center justify-center h-[42px] w-full;
-        @apply bg-secondary text-white rounded-3xl text-sm font-telegraf-regular font-bold uppercase;
+        @apply flex items-center justify-center h-[42px] w-full gap-1;
+        @apply bg-secondary text-white rounded-3xl text-sm font-telegraf-regular font-semibold uppercase;
         letter-spacing: 0.14px;
       }
     }
