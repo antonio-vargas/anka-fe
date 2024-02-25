@@ -11,9 +11,11 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxtjs/date-fns": "^1.5.0",
     "@nuxtjs/tailwindcss": "^6.9.4",
     "@splidejs/vue-splide": "^0.6.12",
     "@vueuse/nuxt": "^10.7.0",
+    "alova": "^2.17.0",
     "autoprefixer": "^10.4.16",
     "nuxt": "^3.8.0",
     "postcss": "^8.4.31",

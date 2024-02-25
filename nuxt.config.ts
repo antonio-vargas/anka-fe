@@ -13,7 +13,10 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/main.scss'],
   modules: [
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+  ],
+  buildModules: [
+    '@nuxtjs/date-fns',
   ],
   postcss: {
     plugins: {

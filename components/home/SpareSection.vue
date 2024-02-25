@@ -7,7 +7,7 @@ import EagleIcon from '@/components/ui/icons/EagleIcon.vue'
 import SparePartItem from '@/components/spare-part/SparePartItem.vue'
 import { ArrowRightBigIcon } from '~/components/ui/icons';
 
-const { spareParts, getSpareParts } = useSparePart();
+const { spareParts, getSpareParts } = useSpareParts();
 
 const windowWidth = ref<number>(0);
 

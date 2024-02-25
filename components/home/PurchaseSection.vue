@@ -4,7 +4,7 @@ import { type Options, Splide, SplideSlide, SplideTrack } from '@splidejs/vue-sp
 // import { Carousel, Navigation, Slide } from 'vue3-carousel'
 import MachineryItem from '@/components/machinery/MachineryItem.vue'
 import { ArrowRightIcon, ArrowRightBigIcon } from '~/components/ui/icons';
-const { machineries, getMachineries } = useMachinery();
+const { machineries, getMachineries } = useMachineries();
 
 const windowWidth = ref<number>(0);
 

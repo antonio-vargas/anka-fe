@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useOffsetPagination } from '@vueuse/core'
-import { TruckIcon, SpareIcon, SearchIcon, ArrowRightBigIcon, FilterIcon } from '@/components/ui/icons'
-import MachineryItem from '@/components/machinery/MachineryItem.vue'
-import UiSelect from '@/components/ui/UiSelect.vue'
-import type { MachinaryPropertyObject, MachineryCategory } from '@/types';
+import { TruckIcon, SpareIcon, SearchIcon, ArrowRightBigIcon, FilterIcon } from '~/components/ui/icons'
+import MachineryItem from '~/components/machinery/MachineryItem.vue'
+import UiSelect from '~/components/ui/UiSelect.vue'
+import type { MachinaryPropertyObject, MachineryCategory } from '~/types';
 
 const selectedCategory = ref<MachinaryPropertyObject | null>(null)
 const selectedSubcategory = ref<MachinaryPropertyObject | null>(null)
@@ -31,7 +31,7 @@ const {
   page: 1,
   pageSize: 6,
   onPageChange: async ({ currentPage, currentPageSize }) => {
-    const params = `?page=${currentPage}&pageSize=6&isForSale=true`
+    const params = `?page=${currentPage}&pageSize=6&isForRent=true`
     page.value = currentPage
     await getMachineries(params)
     return machineries.value
@@ -42,7 +42,7 @@ onMounted(async () => {
   await getBrands()
   await getLocations()
   await getCategories()
-  await getMachineries('?page=1&pageSize=6&isForSale=true')
+  await getMachineries('?page=1&pageSize=6&isForRent=true')
 })
 
 const handleSelectCategory = (value: any) => {
@@ -83,7 +83,7 @@ const handleSearchFilter = async () => {
     params += `&year=${selectedYear.value}`
   }
   page.value = 1
-  await getMachineries(`?page=${page.value}&pageSize=6${params}&isForSale=true`)
+  await getMachineries(`?page=${page.value}&pageSize=6${params}&isForRent=true`)
 }
 
 const handleClearFilter = async () => {
@@ -91,7 +91,7 @@ const handleClearFilter = async () => {
   selectedSubcategory.value = null
   selectedLocation.value = null
   selectedBrand.value = null
-  await getMachineries('?page=1&pageSize=6&isForSale=true')
+  await getMachineries('?page=1&pageSize=6&isForRent=true')
 }
 
 </script>
