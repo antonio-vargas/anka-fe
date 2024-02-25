@@ -28,7 +28,7 @@ const handleSelectOption = (item: any) => {
 }
 
 const customText = computed(() => {
-  return isEmpty(props.modelValue) ? props.placeholder : props.modelValue.name
+  return props.modelValue !== null || props.modelValue !== undefined || props.modelValue !== '' ? props.placeholder : props.modelValue.name
 })
 
 const handleToggleOptions = () => {
