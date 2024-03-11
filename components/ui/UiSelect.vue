@@ -1,5 +1,3 @@
-
-import type { mergeProps } from 'vue';
 <script lang="ts" setup>
 import { isEmpty } from 'lodash'
 import { ref } from 'vue'
@@ -28,7 +26,7 @@ const handleSelectOption = (item: any) => {
 }
 
 const customText = computed(() => {
-  return props.modelValue !== null || props.modelValue !== undefined || props.modelValue !== '' ? props.placeholder : props.modelValue.name
+  return isEmpty(props.modelValue) ? props.placeholder : props.modelValue.name
 })
 
 const handleToggleOptions = () => {

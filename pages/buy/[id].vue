@@ -70,7 +70,7 @@
               </div>
               <div class="text-base font-telegraf-regular text-white">{{ machinery.description }}</div>
               <div class="w-full mt-5">
-                <button class="btn-quote" type="button">
+                <button class="btn-quote" type="button" @click="handleQuoteModal">
                   <RequestQuoteIcon />
                   <span>Cotizar</span>
                 </button>
@@ -82,43 +82,47 @@
       <div class="container">
         <div class="purchase__files">
           <div class="file">
-            <div class="file__item">
+            <div v-if="validExistsFile('technical_datasheet')" class="file__item">
               <p class="font-telegraf-black text-base lg:text-2xl">Ficha técnica</p>
-              <button type="button" @click="handleDownloadFile('technical_datasheet_link')">
+              <button type="button" @click="handleDownloadFile('technical_datasheet')">
                 <DownloadIcon />
                 <span>DESCARGAR</span>
               </button>
             </div>
-            <div class="file__item">
+            <div v-if="validExistsFile('preventive_maintenance')" class="file__item">
               <p class="font-telegraf-black text-base lg:text-2xl">Historial de mantenimiento preventivo</p>
-              <button type="button" @click="handleDownloadFile('preventive_maintenance_link')">
+              <button type="button" @click="handleDownloadFile('preventive_maintenance')">
                 <DownloadIcon />
                 <span>DESCARGAR</span>
               </button>
             </div>
-            <div class="file__item">
+            <div v-if="validExistsFile('corrective_maintenance')" class="file__item">
               <p class="font-telegraf-black text-base lg:text-2xl">Historial de mantenimiento correctivo</p>
-              <button type="button" @click="handleDownloadFile('corrective_maintenance_link')">
+              <button type="button" @click="handleDownloadFile('corrective_maintenance')">
                 <DownloadIcon />
                 <span>DESCARGAR</span>
               </button>
             </div>
           </div>
         </div>
-        <div class="purchase__other-services">
+        <div v-if="otherServices.length > 0" class="purchase__other-services">
           <div class="service__head">
             <div class="service__title">OTROS SERVICIOS COMPLEMENTARIOS</div>
           </div>
           <div class="my-4 bg-primary-light h-px w-full relative"></div>
           <div class="service__body">
             <ul class="other-services">
-              <li>Implementaciones <br class="hidden lg:inline-flex"/>según proyecto</li>
+              <template v-for="(item, index) in otherServices">
+                <li>{{ item }}</li>
+                <li v-if="index < otherServices.length - 1" class="divider"></li>
+              </template>
+              <!-- <li>Implementaciones <br class="hidden lg:inline-flex"/>según proyecto</li>
               <li class="divider"></li>
               <li>Servicio técnico en obra</li>
               <li class="divider"></li>
               <li>Aditamientos complementarios</li>
               <li class="divider"></li>
-              <li>Capacitaciones</li>
+              <li>Capacitaciones</li> -->
             </ul>
           </div>
         </div>
@@ -148,7 +152,7 @@
         </div>
       </div>
     </div> -->
-    <QuotePurchaseModal />
+    <QuotePurchaseModal ref="quotePurchaseModal" />
   </div>
 </template>
 <script setup lang="ts">
@@ -159,30 +163,38 @@ import { MarkerTruckIcon, CalendarIcon, WeightIcon, MeterIcon, RequestQuoteIcon,
 // import MachineryItem from '@/components/machinery/MachineryItem.vue'
 import QuotePurchaseModal from '@/components/ui/QuotePurchaseModal.vue'
 import WhatsappBtn from '~/components/ui/WhatsappBtn.vue';
+import type { MachineryAttachment } from '~/types/machinery';
 const route = useRoute()
 
 const { machinery, loadingMachinery, getMachinery } = useMachinery();
 
 const windowWidth = ref<number>(0);
+const quotePurchaseModal = ref<InstanceType<typeof QuotePurchaseModal>>();
 
 const handleResize = () => {
   windowWidth.value = window.innerWidth;
 };
 
 const handleDownloadFile = (payload: string) => {
+  const item = machinery.value?.attachments.find(e => e.field_name === payload) || null
   // console.log('handleDownloadFile', payload, machinery.value[payload])
-  window.open(machinery.value[payload], '_blank')
+  item && window.open(item.file_link, '_blank')
+}
+
+const validExistsFile = (payload: string) => {
+  const item = machinery.value?.attachments.find(e => e.field_name === payload) || null
+  return !!item
 }
 
 const optionsProduct = {
   rewind: true,
   perPage: 1,
   arrow: true,
-    pagination: false,
+  pagination: false,
 }
 
 onMounted(async () => {
-  console.log('id', route.params?.id || '')
+  // console.log('id', route.params?.id || '')
   await getMachinery(`${route.params?.id || ''}`)
   handleResize()
   window.addEventListener('resize', handleResize);
@@ -209,6 +221,10 @@ const formattedYear = computed(() => {
   return year
 })
 
+const otherServices = computed(() => {
+  return machinery.value?.complementary_service.replaceAll('; ', ';').split(';') || []
+})
+
 const whatsappCustomMessage = computed(() => {
   return `Buenas Anka, pueden brindarme más información del producto\nNombre: ${machinery.value?.name}\nCategoría y subcategoría: ${machinery.value?.category?.name} - ${machinery.value?.subcategory?.name}`
 })
@@ -216,6 +232,10 @@ const whatsappCustomMessage = computed(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize);
 });
+
+const handleQuoteModal = () => {
+  quotePurchaseModal.value?.openModal()
+}
 
 </script>
 <style lang="scss" scoped>

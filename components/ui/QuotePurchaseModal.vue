@@ -1,27 +1,36 @@
 <script lang="ts" setup>
 import { CloseIcon, RequestQuoteIcon } from '~/components/ui/icons';
 import type { IQuoteRequest } from '@/types';
-const { postQuote } = useContact();
+const { sendPurchaseForm, loadingPurchaseForm } = useContact();
 
 const BUY_FORM = {
-  first_name: 'Antonio',
-  last_name: 'Vargas',
-  email: 'antonioadolvv@gmail.com',
-  phone: '993305902',
-  company: 'compañia de prueba',
-  ruc: '1047026272',
-  message: 'weq ewq ew qewq ewq ewq',
+  first_name: '',
+  last_name: '',
+  email: '',
+  phone: '',
+  company: '',
+  ruc: '',
+  message: '',
 }
 
-const show = ref<boolean>(true)
+const show = ref<boolean>(false)
 const form = ref<IQuoteRequest>(JSON.parse(JSON.stringify(BUY_FORM)))
-const handleCloseModal = () => {
-  show.value = !show.value
+const closeModal = () => {
+  show.value = false
+}
+const openModal = () => {
+  show.value = true
 }
 
 const handleValidForm = () => {
-  postQuote(form.value)
+  if (loadingPurchaseForm.value) return;
+  sendPurchaseForm(form.value)
 }
+
+defineExpose({
+  closeModal,
+  openModal
+})
 </script>
 <template>
   <div v-if="show" class="modal">
@@ -30,7 +39,7 @@ const handleValidForm = () => {
         <div class="modal__title">
           COTIZACIÓN COMPRA
         </div>
-        <button class="btn-close" @click="handleCloseModal"><CloseIcon class="w-5 h-5 lg:w-6 lg:h-6" /></button>
+        <button class="btn-close" @click="closeModal"><CloseIcon class="w-5 h-5 lg:w-6 lg:h-6" /></button>
       </div>
       <div class="modal__body">
         <p class="leading-8 text-xs md:text-lg font-telegraf-black font-bold text-primary mb-2">Ingresa tus datos</p>
@@ -110,9 +119,9 @@ const handleValidForm = () => {
 
       </div>
       <div class="modal__actions px-4 pb-3">
-        <button class="btn-quote" type="button" @click="handleValidForm">
+        <button class="btn-quote" type="button" @click="handleValidForm" :disabled="loadingPurchaseForm">
           <RequestQuoteIcon />
-          <span>Cotizar</span>
+          <span>{{!loadingPurchaseForm ? 'Cotizar' : 'Cotizando'}}</span>
         </button>
       </div>
     </div>
@@ -154,6 +163,9 @@ const handleValidForm = () => {
     span{
       @apply text-sm leading-[14px] font-telegraf-regular font-bold  uppercase;
       letter-spacing: 0.14px;
+    }
+    &:disabled {
+      @apply bg-secondary/75 cursor-not-allowed;
     }
   }
 }

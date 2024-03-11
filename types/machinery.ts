@@ -16,6 +16,13 @@ export interface MachineryCategory {
   children: MachinaryPropertyObject[]
 }
 
+export interface MachineryAttachment {
+  id: number
+  field_name: string
+  file_link: string
+  file_name: string
+}
+
 export interface IMachinery {
   id: number | null;
   name: string;
@@ -36,5 +43,6 @@ export interface IMachinery {
   brand: MachinaryPropertyObject;
   location: MachinaryPropertyObject;
   images: MachinaryImages[];
+  attachments: MachineryAttachment[];
   createdAt: string;
 }

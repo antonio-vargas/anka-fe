@@ -12,6 +12,7 @@ const selectedLocation = ref<MachinaryPropertyObject | null>(null)
 const selectedBrand = ref<MachinaryPropertyObject | null>(null)
 const selectedYear = ref<string>()
 const toggleFilter = ref<boolean>(false)
+const initSearch = ref<boolean>(true)
 const subcategoryOptions = ref<MachinaryPropertyObject[]>([])
 const page = ref<number>(1)
 
@@ -43,6 +44,7 @@ onMounted(async () => {
   await getLocations()
   await getCategories()
   await getMachineries('?page=1&pageSize=6&isForSale=true')
+  initSearch.value = false
 })
 
 const handleSelectCategory = (value: any) => {
@@ -180,55 +182,54 @@ const handleClearFilter = async () => {
         </div>
         <div
           class="purchase__result pt-0 md:pt-10"
-          :class="{
-            'md:justify-start': !loadingMachineries,
-            'md:justify-center': loadingMachineries
-          }"
+          :class="[loadingMachineries || initSearch ? 'md:justify-center' : 'md:justify-start']"
         >
-          <div v-if="loadingMachineries" class="w-full text-center mb-10">
+          <div v-if="loadingMachineries || initSearch" class="w-full flex items-center justify-center md:min-h-[600px]">
             <svg class="animate-spin h-20 w-20 text-primary mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
           </div>
-          <div
-            v-if="!loadingMachineries && machineries.length === 0"
-            class="w-full text-center"
-          >
-            <SearchIcon class="text-[#B9C8D0] w-[207px] h-[207px] mx-auto mb-10" />
-            <p class="text-primary text-base font-telegraf-black font-bold">NO SE ENCONTRARON RESULTADOS A TU BÚSQUEDA</p>
-          </div>
-          <div class="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6 w-full">
-            <MachineryItem
-              v-for="(item, index) in machineries"
-              :key="`MACHINERY_CARD_${index}`"
-              :index="index"
-              :machinery="item"
-            />
-          </div>
-          <div v-if="machineries.length > 0" class="w-full relative flex justify-center gap-3 items-center mt-6">
-            <button
-              class="w-9 h-9 rounded-full border border-primary"
-              :class="{
-                'cursor-not-allowed opacity-60': isFirstPage
-              }"
-              :disabled="isFirstPage"
-              @click="prev"
+          <template v-else>
+            <div
+              v-if="machineries.length === 0"
+              class="w-full text-center"
             >
-              <ArrowRightBigIcon class="rotate-180" />
-            </button>
-            <span>{{ currentPage }} de <b>{{ pageCount }}</b></span>
-            <button
-              class="w-9 h-9 rounded-full border border-primary"
-              :class="{
-                'cursor-not-allowed opacity-60': isLastPage
-              }"
-              :disabled="isLastPage"
-              @click="next"
-            >
-              <ArrowRightBigIcon />
-            </button>
-          </div>
+              <SearchIcon class="text-[#B9C8D0] w-[207px] h-[207px] mx-auto mb-10" />
+              <p class="text-primary text-base font-telegraf-black font-bold">NO SE ENCONTRARON RESULTADOS A TU BÚSQUEDA</p>
+            </div>
+            <div v-if="machineries.length > 0" class="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6 w-full">
+              <MachineryItem
+                v-for="(item, index) in machineries"
+                :key="`MACHINERY_CARD_${index}`"
+                :index="index"
+                :machinery="item"
+              />
+            </div>
+            <div v-if="machineries.length > 0" class="w-full relative flex justify-center gap-3 items-center mt-6">
+              <button
+                class="w-9 h-9 rounded-full border border-primary"
+                :class="{
+                  'cursor-not-allowed opacity-60': isFirstPage
+                }"
+                :disabled="isFirstPage"
+                @click="prev"
+              >
+                <ArrowRightBigIcon class="rotate-180" />
+              </button>
+              <span>{{ currentPage }} de <b>{{ pageCount }}</b></span>
+              <button
+                class="w-9 h-9 rounded-full border border-primary"
+                :class="{
+                  'cursor-not-allowed opacity-60': isLastPage
+                }"
+                :disabled="isLastPage"
+                @click="next"
+              >
+                <ArrowRightBigIcon />
+              </button>
+            </div>
+          </template>
         </div>
       </div>
     </div>

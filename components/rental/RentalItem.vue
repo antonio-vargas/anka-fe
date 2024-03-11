@@ -1,15 +1,34 @@
 <script lang="ts" setup>
 import MarkerTruckIcon from '@/components/ui/icons/MarkerTruckIcon.vue'
 import RequestQuoteIcon from '@/components/ui/icons/RequestQuoteIcon.vue'
+import type { IMachinery } from '@/types'
+
+interface Props {
+  index: number,
+  machinery: IMachinery | null;
+}
+
+withDefaults(defineProps<Props>(), {
+  index: 1,
+  machinery: null
+})
+
 </script>
 <template>
   <div class="rental">
     <div class="rental__inner">
-      <div class="rental__image">
-        <img src="~/assets/img/purchase-item.jpg" />
+      <div
+        v-if="machinery?.images.length"
+        class="rental__image"
+        :style="`background-image: url(${machinery.images[0].image_link})`"
+      >
+        <img class="hidden" :src="machinery.images[0].image_link" />
       </div>
+      <!-- <div class="rental__image">
+        <img src="~/assets/img/purchase-item.jpg" />
+      </div> -->
       <div class="rental__actions">
-        <div class="rental__name">CARGADOR FRONTAL</div>
+        <div class="rental__name">{{ machinery?.category.name || '' }}</div>
         <button class="btn-quote" type="button">
           <RequestQuoteIcon />
           <span>Cotizar</span>
@@ -22,11 +41,24 @@ import RequestQuoteIcon from '@/components/ui/icons/RequestQuoteIcon.vue'
 .rental {
 
   &__inner {
-    @apply flex gap-3 flex-col w-[300px] relative rounded-lg overflow-hidden;
+    @apply flex gap-3 flex-col w-full relative rounded-lg overflow-hidden;
   }
 
+  // &__image {
+  //   @apply w-full h-[340px] relative;
+  // }
+
   &__image {
-    @apply w-[300px] h-[340px] relative;
+    @apply w-full h-[260px] relative;
+    background: {
+      size: cover;
+      repeat: no-repeat;
+      position: top center;
+    }
+    @screen lg {
+      @apply h-[340px];
+      background-image: none;
+    }
   }
 
   &__body {
