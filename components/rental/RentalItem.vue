@@ -13,6 +13,8 @@ withDefaults(defineProps<Props>(), {
   machinery: null
 })
 
+defineEmits(['select'])
+
 </script>
 <template>
   <div class="rental">
@@ -29,7 +31,7 @@ withDefaults(defineProps<Props>(), {
       </div> -->
       <div class="rental__actions">
         <div class="rental__name">{{ machinery?.category.name || '' }}</div>
-        <button class="btn-quote" type="button">
+        <button class="btn-quote" type="button" @click="$emit('select', machinery)">
           <RequestQuoteIcon />
           <span>Cotizar</span>
         </button>

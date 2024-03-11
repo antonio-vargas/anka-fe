@@ -2,11 +2,12 @@
 import { computed, nextTick, ref, onMounted } from 'vue'
 import { useOffsetPagination } from '@vueuse/core'
 import { TruckIcon, SpareIcon, SearchIcon, ArrowRightBigIcon, FilterIcon } from '~/components/ui/icons'
-import MachineryItem from '~/components/machinery/MachineryItem.vue'
 import RentalItem from '~/components/rental/RentalItem.vue'
 import UiSelect from '~/components/ui/UiSelect.vue'
-import type { MachinaryPropertyObject, MachineryCategory } from '~/types';
+import RentalModal from '~/components/ui/RentalModal.vue'
+import type { MachinaryPropertyObject, MachineryCategory, IMachinery } from '~/types';
 
+const rentalModal = ref<InstanceType<typeof RentalModal>>();
 const selectedCategory = ref<MachinaryPropertyObject | null>(null)
 const selectedSubcategory = ref<MachinaryPropertyObject | null>(null)
 const selectedLocation = ref<MachinaryPropertyObject | null>(null)
@@ -101,6 +102,11 @@ const handleNextPage = async () => {
   next()
   await nextTick()
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+const handleSelectRental = (machinery: IMachinery) => {
+  console.log(machinery)
+  rentalModal.value?.openModal(machinery)
 }
 
 const handlePrevPage = async () => {
@@ -217,6 +223,7 @@ const handlePrevPage = async () => {
                 :key="`MACHINERY_CARD_${index}`"
                 :index="index"
                 :machinery="item"
+                @select="handleSelectRental"
               />
             </div>
             <div v-if="machineries.length > 0" class="w-full relative flex justify-center gap-3 items-center mt-6">
@@ -281,6 +288,7 @@ const handlePrevPage = async () => {
         </div>
       </div>
     </div>
+    <RentalModal ref="rentalModal" />
   </div>
 </template>
 <style lang="scss" scoped>
@@ -307,7 +315,7 @@ const handlePrevPage = async () => {
           @apply font-telegraf-black font-bold text-primary text-2xl;
         }
         &__form {
-          @apply fixed z-[1200] bg-black/30 flex items-end h-full w-full top-0 left-0;
+          @apply fixed z-[100] bg-black/30 flex items-end h-full w-full top-0 left-0;
           @screen md {
             @apply relative top-auto left-auto bg-transparent h-auto;
             display: block !important;
